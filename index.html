@@ -9,29 +9,36 @@
 </head>
 <body>
     <div id="container">
-        <div id="header"></div>
-        <div id="box"></div>
-        <div id="footer"></div>
+        <div id="header">
+            <div id="animHeader"></div>
+        </div>
+        <div id="box">
+            <div id="animBox"></div>
+        </div>
+        <div id="footer">
+            <div id="animFooter"></div>
+        </div>
     </div>
     <script src="js/lottie.js"></script>
     <script>
         //Animation files
-        var testBoxA = bodymovin.loadAnimation({
-            container: document.getElementById("box"),
+         var testBoxA = bodymovin.loadAnimation({
+            container: document.getElementById("animHeader"),
             renderer: "svg",
             loop: true,
             autoplay: true,
-            path: "assets/gfx/test/testBoxA.json"
+            path: "assets/gfx/test/testBanner.json"
         });
         var testBoxB = bodymovin.loadAnimation({
-            container: document.getElementById("header"),
-            renderer: "svg",
-            loop: false,
-            autoplay: false,
+            container: document.getElementById("animBox"),
+            renderer: "html",
+            loop: true,
+            autoplay: true,
             path: "assets/gfx/test/testBoxB.json"
         });
+       
         var testBoxC = bodymovin.loadAnimation({
-            container: document.getElementById("footer"),
+            container: document.getElementById("animFooter"),
             renderer: "svg",
             loop: false,
             autoplay: false,
