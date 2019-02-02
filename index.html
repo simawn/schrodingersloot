@@ -13,10 +13,36 @@
         <div id="box"></div>
         <div id="footer"></div>
     </div>
+    <script src="js/lottie.js"></script>
     <script>
-    document.getElementById("box").addEventListener("click", () => {
-        console.log(Math.random());
-    });
+        //Animation files
+        var testBoxA = bodymovin.loadAnimation({
+            container: document.getElementById("box"),
+            renderer: "svg",
+            loop: true,
+            autoplay: true,
+            path: "assets/gfx/test/testBoxA.json"
+        });
+        var testBoxB = bodymovin.loadAnimation({
+            container: document.getElementById("header"),
+            renderer: "svg",
+            loop: false,
+            autoplay: false,
+            path: "assets/gfx/test/testBoxB.json"
+        });
+        var testBoxC = bodymovin.loadAnimation({
+            container: document.getElementById("footer"),
+            renderer: "svg",
+            loop: false,
+            autoplay: false,
+            path: "assets/gfx/test/testBoxC.json"
+        });
+    </script>
+    <script>
+        //Event listeners
+        document.getElementById("box").addEventListener("click", () => {
+          console.log(Math.random());
+        });
     </script>
 </body>
 </html>
