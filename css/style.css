@@ -1,5 +1,21 @@
+#container {
+    display: grid;
+}
+
+#header {
+    background: blue;
+    grid-row: 1;
+    height: 30vh;
+}
+
 #box {
-    height: 100px;
-    width: 100px;
+    grid-row: 2;
     background-color: red;
+    height: 30vh;
+}
+
+#footer {
+    grid-row: 3;
+    background: green;
+    height: 30vh;
 }
