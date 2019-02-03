@@ -20,25 +20,47 @@
     <script src="js/lottie.js"></script>
     <script>
         var boxElement = document.getElementById("animBox");
-        //Box animation data
-        var box = bodymovin.loadAnimation({
+        var box;
+        var boxAnimParams = {
             container: boxElement,
             renderer: "html",
             loop: true,
             autoplay: false,
             path: "assets/gfx/box/boxMerge.json"
-        });
-        //Wait for page to load before starting animations
-        box.addEventListener("DOMLoaded", () => {
-            console.log("Loaded");
-            box.playSegments([31,156], true); //Still
-        });
-        //Click
-        document.getElementById("animBox").addEventListener("click", () => {
-            box.playSegments([210, 354], true);
-            box.loop = false;
-        });
+        };
+        
+        startBoxAnimation();
 
+        var clicked = false;
+        
+
+        function getPrize(){
+            return Math.random();
+        }
+
+        function showPrize(randNum){
+            console.log(randNum);
+        }
+
+        function openBox(){
+            if(clicked) return;
+            clicked = true; //Avoid multiple clicks
+            console.log("openBox");
+            box.playSegments([210, 354], true);
+            getPrize();
+            box.addEventListener("loopComplete", () => {
+                box.destroy();
+                showPrize(getPrize());
+                startBoxAnimation();
+            });
+        }
+
+        function startBoxAnimation(){
+            box = bodymovin.loadAnimation(boxAnimParams);
+            box.playSegments([31,156], true);
+            boxElement.onclick = openBox;
+            console.log("start");
+        }
     </script>
 </body>
 </html>
