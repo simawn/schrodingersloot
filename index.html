@@ -12,9 +12,7 @@
         <div id="header">
             <div id="animHeader"></div>
         </div>
-        <div id="box">
-            <div id="animBox"></div>
-        </div>
+        <div id="animBox"></div>
         <div id="footer">
             <div id="animFooter"></div>
         </div>
@@ -43,12 +41,9 @@
             box.playSegments([32, 178], true); //Animation bounce up
             box.addEventListener("loopComplete", () => {
                 mouseOver = false;
-                box.playSegments([0,31], true); //Still
             });
         });
-    </script>
-    <script>
-        //Event listeners
+        //Click Event
         document.getElementById("animBox").addEventListener("click", () => {
           console.log(Math.random());
         });
