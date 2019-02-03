@@ -21,38 +21,31 @@
     </div>
     <script src="js/lottie.js"></script>
     <script>
+        var boxElement = document.getElementById("animBox");
+        //Box animation data
         var box = bodymovin.loadAnimation({
-            container: document.getElementById("animBox"),
+            container: boxElement,
             renderer: "html",
             loop: true,
-            autoplay: true,
+            autoplay: false,
             path: "assets/gfx/box/box.json"
         });
-        //Animation files
-        /* TESTS
-         var testBoxA = bodymovin.loadAnimation({
-            container: document.getElementById("animHeader"),
-            renderer: "svg",
-            loop: true,
-            autoplay: true,
-            path: "assets/gfx/test/testBanner.json"
+        //Wait for page to load before starting animations
+        box.addEventListener("DOMLoaded", () => {
+            box.playSegments([0,31], true); //Still
         });
-        var testBoxB = bodymovin.loadAnimation({
-            container: document.getElementById("animBox"),
-            renderer: "html",
-            loop: true,
-            autoplay: true,
-            path: "assets/gfx/test/testBoxB.json"
+        //Hover animation
+        //TODO: Mousein/mouseout anims
+        var mouseOver = false; //Need this to avoid repeated loops
+        boxElement.addEventListener("mouseover", () => {
+            if(mouseOver) return;
+            mouseOver = true;
+            box.playSegments([32, 178], true); //Animation bounce up
+            box.addEventListener("loopComplete", () => {
+                mouseOver = false;
+                box.playSegments([0,31], true); //Still
+            });
         });
-       
-        var testBoxC = bodymovin.loadAnimation({
-            container: document.getElementById("animFooter"),
-            renderer: "svg",
-            loop: false,
-            autoplay: false,
-            path: "assets/gfx/test/testBoxC.json"
-        });
-        */
     </script>
     <script>
         //Event listeners
