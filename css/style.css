@@ -1,6 +1,6 @@
 body{
     margin: 0;
-    background-color:aliceblue;
+    background-color:#f0f8ff;
 }
 
 #container {
@@ -11,6 +11,7 @@ body{
 #header {
     height: 20vh;
     position: relative;
+    text-align: center;
 }
 
 #animHeader {
@@ -20,7 +21,7 @@ body{
 #animBox {
     height: 60vh;
     position: relative;
-    background-color: aliceblue;
+    background-color: #f0f8ff;
     text-align: center;
 }
 

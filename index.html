@@ -13,6 +13,7 @@
 <body>
     <div id="container">
         <div id="header">
+            <h1>Schrodinger's Loot</h1>
             <div id="animHeader"></div>
         </div>
         <div id="animBox"></div>
@@ -47,32 +48,79 @@
         };
         var cat;
 
+        //POISON
+        var poisonAnimParams = {
+            container: boxElement,
+            renderer: "svg",
+            loop: true,
+            autoplay: true,
+            path: "assets/gfx/obj/poison.json"
+        };
+        var poison;
+
         //START
         document.addEventListener("DOMContentLoaded", () => { //When content of the page is loaded
             startBoxAnimation();
         });
 
         function getPrize(){ //RNG
-            return Math.random();
+            return parseInt(Math.random()*100);
         }
 
         function showPrize(randNum){ //Process random number
-            console.log(randNum);
-
-            var desc = document.createElement("div");
-            desc.setAttribute("id", "desc");
-            var h1 = document.createElement("h1");
-            var h1Text = document.createTextNode("You got an orange cat");
-            h1.appendChild(h1Text);
-            desc.appendChild(h1);
+            //Generate item
+            var a = parseInt(randNum/10);
+            var b = randNum%10
+            console.log(`RNG: ${randNum}, F: ${a}, L: ${b} `);
+            var itemName;
+            var itemParams;
+            var item; //Animation load
+            var worth; //Sell amount
             //Generate spot for item animation
             var itemDiv = document.createElement("div");
             itemDiv.setAttribute("id", "item");
 
-            var item;
-            //If cat:
-            catAnimParams.container = itemDiv; //Mod injection params
-            item = bodymovin.loadAnimation(catAnimParams); //Load cat model
+            if(a <= 5){ //Cat
+                itemParams = catAnimParams;
+                worth = 50;
+                switch(b){
+                    case 1:
+                    case 2:
+                    case 3:
+                        itemName = "A black cat"
+                        itemParams.path = "assets/gfx/cat/catBlack.json"
+                        break;
+                    case 4:
+                    case 5:
+                        itemName = "A black and white cat";
+                        itemParams.path = "assets/gfx/cat/catBlackWhite.json"
+                        break;
+                    case 6:
+                    case 7: 
+                    case 8:
+                    case 9: 
+                    case 0:
+                        itemName = "An orange cat";
+                        itemParams.path = "assets/gfx/cat/catA.json"
+                        break;
+                }
+            } else { //Poison
+                worth = 10;
+                itemParams = poisonAnimParams;
+                itemName = "A poison flask";
+            }
+            
+            //Item animation display
+            itemParams.container = itemDiv; //Mod injection params
+            item = bodymovin.loadAnimation(itemParams); //Load cat model
+
+            //Description field on item
+            var desc = document.createElement("div");
+            desc.setAttribute("id", "desc");
+            var h1 = document.createElement("h1");
+            var h1Text = document.createTextNode("You received: " + itemName);
+            h1.appendChild(h1Text);
+            desc.appendChild(h1);
 
             //Generate spot for buttons
             var optionDiv = document.createElement("div");
@@ -125,7 +173,6 @@
             if(clicked) return;
             idleMode = false;
             clicked = true; //Avoid multiple clicks
-            console.log("openBox");
             box.playSegments([210, 290], true); //210-354 FOR FULL LENGTH
             getPrize();
             box.addEventListener("loopComplete", () => {
