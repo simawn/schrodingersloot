@@ -63,9 +63,10 @@
             var itemDiv = document.createElement("div");
             itemDiv.setAttribute("id", "item");
 
+            var item;
             //If cat:
             catAnimParams.container = itemDiv; //Mod injection params
-            cat = bodymovin.loadAnimation(catAnimParams); //Load cat model
+            item = bodymovin.loadAnimation(catAnimParams); //Load cat model
 
             //Generate spot for buttons
             var optionDiv = document.createElement("div");
@@ -79,16 +80,35 @@
             optionDiv.appendChild(button1);
 
             //Sell
-            var button1 = document.createElement("button");
-            button1.setAttribute("id", "sell");
-            var button1Text = document.createTextNode("Sell");
-            button1.appendChild(button1Text);
-            optionDiv.appendChild(button1);
+            var button2 = document.createElement("button");
+            button2.setAttribute("id", "sell");
+            var button2Text = document.createTextNode("Sell for 50$");
+            button2.appendChild(button2Text);
+            optionDiv.appendChild(button2);
 
             //Inject elements
             boxElement.appendChild(desc);
             boxElement.appendChild(itemDiv);
             boxElement.appendChild(optionDiv);
+
+            //When clicking on a button, reset everything
+            function resetStage(){
+                item.destroy();
+                boxElement.removeChild(desc);
+                boxElement.removeChild(itemDiv);
+                boxElement.removeChild(optionDiv);
+                clicked = false;
+                startBoxAnimation();
+            }
+
+            //Button actions
+            button1.addEventListener("click", () => { //Keep
+                resetStage();
+            });
+
+            button2.addEventListener("click", () => { //Sell
+                resetStage();
+            });
         }
 
         var clicked = false; //Checking for multiple clicks
@@ -103,8 +123,6 @@
             box.addEventListener("loopComplete", () => {
                 box.destroy();
                 showPrize(getPrize());
-                //startBoxAnimation();
-                //clicked = false; //Able to click on box again
             });
         }
 
