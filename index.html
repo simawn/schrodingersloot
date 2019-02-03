@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    
     <link href="css/style.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
     <title>Schrodinger's Loot</title>
 </head>
 <body>
@@ -19,6 +22,9 @@
     </div>
     <script src="js/lottie.js"></script>
     <script>
+        //IT'S A COMPLETE MESS DOWN HERE BUT IT SOMEHOW WORKS. 
+        //WILL SPLIT THEM INTO SPERATE FILES EVENTUALLY.
+
         var boxElement = document.getElementById("animBox"); //Injecting animation in here
         
         //BOX
@@ -75,6 +81,7 @@
             //Keep
             var button1 = document.createElement("button");
             button1.setAttribute("id", "keep");
+            button1.setAttribute("class", "btn btn-success");
             var button1Text = document.createTextNode("Keep");
             button1.appendChild(button1Text);
             optionDiv.appendChild(button1);
@@ -82,6 +89,7 @@
             //Sell
             var button2 = document.createElement("button");
             button2.setAttribute("id", "sell");
+            button2.setAttribute("class", "btn btn-danger");
             var button2Text = document.createTextNode("Sell for 50$");
             button2.appendChild(button2Text);
             optionDiv.appendChild(button2);
@@ -118,7 +126,7 @@
             idleMode = false;
             clicked = true; //Avoid multiple clicks
             console.log("openBox");
-            box.playSegments([210, 354], true);
+            box.playSegments([210, 290], true); //210-354 FOR FULL LENGTH
             getPrize();
             box.addEventListener("loopComplete", () => {
                 box.destroy();
