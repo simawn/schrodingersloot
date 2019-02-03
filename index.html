@@ -21,7 +21,15 @@
     </div>
     <script src="js/lottie.js"></script>
     <script>
+        var box = bodymovin.loadAnimation({
+            container: document.getElementById("animBox"),
+            renderer: "html",
+            loop: true,
+            autoplay: true,
+            path: "assets/gfx/box/box.json"
+        });
         //Animation files
+        /* TESTS
          var testBoxA = bodymovin.loadAnimation({
             container: document.getElementById("animHeader"),
             renderer: "svg",
@@ -44,10 +52,11 @@
             autoplay: false,
             path: "assets/gfx/test/testBoxC.json"
         });
+        */
     </script>
     <script>
         //Event listeners
-        document.getElementById("box").addEventListener("click", () => {
+        document.getElementById("animBox").addEventListener("click", () => {
           console.log(Math.random());
         });
     </script>

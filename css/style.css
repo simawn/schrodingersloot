@@ -1,5 +1,6 @@
 body{
     margin: 0;
+    background-image: url("../assets/img/crossline-lines.png");
 }
 
 #container {
@@ -8,7 +9,6 @@ body{
 }
 
 #header {
-    background-color: blue;
     height: 20vh;
     position: relative;
 }
@@ -19,17 +19,17 @@ body{
 
 #box {
     display: block;
-    background-color: red;
     height: 60vh;
     position: relative;
 }
 
 #animBox {
-    height: 20vh;
+    height: 60vh;
+    position: relative;
+    background-color: aqua;
 }
 
 #footer {
-    background-color: green;
     height: 20vh;
     position: relative;
 }
