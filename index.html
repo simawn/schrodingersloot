@@ -19,32 +19,35 @@
     </div>
     <script src="js/lottie.js"></script>
     <script>
-        var boxElement = document.getElementById("animBox");
-        var box;
-        var boxAnimParams = {
+        var boxElement = document.getElementById("animBox"); //Injecting animation in here
+        var boxAnimParams = { //Animation params
             container: boxElement,
             renderer: "html",
             loop: true,
             autoplay: false,
             path: "assets/gfx/box/boxMerge.json"
         };
-        
-        startBoxAnimation();
+        var box; //Actual animation. Setup in start function
 
-        var clicked = false;
-        
+        document.addEventListener("DOMContentLoaded", () => { //When content of the page is loaded
+            console.log("DOM Loaded");
+            startBoxAnimation();
+        });
 
-        function getPrize(){
+        function getPrize(){ //RNG
             return Math.random();
         }
 
-        function showPrize(randNum){
+        function showPrize(randNum){ //Process random number
             console.log(randNum);
         }
+
+        var clicked = false; //Checking for multiple clicks
 
         function openBox(){
             if(clicked) return;
             clicked = true; //Avoid multiple clicks
+            idleMode = false; //Not in idle mode anymore
             console.log("openBox");
             box.playSegments([210, 354], true);
             getPrize();
@@ -52,14 +55,19 @@
                 box.destroy();
                 showPrize(getPrize());
                 startBoxAnimation();
+                clicked = false; //Able to click on box again
             });
         }
 
+        var idleMode = false;
+
         function startBoxAnimation(){
             box = bodymovin.loadAnimation(boxAnimParams);
-            box.playSegments([31,156], true);
-            boxElement.onclick = openBox;
-            console.log("start");
+            idleMode = true;
+            box.addEventListener("DOMLoaded", () => { //When animation data is loaded
+                box.playSegments([31,156], true); //Jump up and down (idle pose)
+                if(idleMode) boxElement.onclick = openBox; //Allow box opening only in idle mode
+            });
         }
     </script>
 </body>

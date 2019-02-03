@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div style="height: 100vh; background-color: black;" id="animBox"></div>
+    <script src="js/lottie.js"></script>
+    <script>
+       //Injecting animation in here
+      var box = bodymovin.loadAnimation({
+        container: document.getElementById("animBox"),
+        renderer: "html",
+        loop: true,
+        autoplay: false,
+        path: "assets/gfx/box/boxMerge.json"
+      }); //Actual animation. Declared on start function
+      box.addEventListener('DOMLoaded', () => { //NEEDED TO PLAY SEGEMENTS PROPERLY!!!!!
+          box.playSegments([31,156], true); //Jump up and down (idle pose)
+      });
+      
+    </script>
+  </body>
+</html>
