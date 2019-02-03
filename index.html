@@ -14,7 +14,9 @@
     <div id="container">
         <div id="header">
             <h1>Schrodinger's Loot</h1>
-            <div id="animHeader"></div>
+        </div>
+        <div id="cash">
+            <h4 id="cAmt"></h4>
         </div>
         <div id="animBox"></div>
         <div id="footer">
@@ -207,6 +209,9 @@
         var idleMode = true; 
 
         function startBoxAnimation(){
+            
+            document.getElementById("cAmt").innerHTML = "You have " + getCookie("cash") + "$";
+
             box = bodymovin.loadAnimation(boxAnimParams);
             box.addEventListener("DOMLoaded", () => { //When animation data is loaded
                 idleMode = true;

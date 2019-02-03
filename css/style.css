@@ -9,29 +9,31 @@ body{
 }
 
 #header {
-    height: 20vh;
     position: relative;
     text-align: center;
 }
 
-#animHeader {
-    height: 10vh;
+#cash {
+    position: relative;
+}
+
+#cAmt {
+    text-align: center;
 }
 
 #animBox {
-    height: 60vh;
+    height: 70vh;
     position: relative;
     background-color: #f0f8ff;
     text-align: center;
 }
 
 #footer {
-    height: 20vh;
     position: relative;
 }
 
 #animFooter {
-    height: 10vh;
+    /*height: 10vh;*/
 }
 
 #desc {
@@ -39,7 +41,7 @@ body{
 }
 
 #item {
-    height: 50%;
+    height: 80%;
 }
 
 #options {
