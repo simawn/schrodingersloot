@@ -1,6 +1,6 @@
 body{
     margin: 0;
-    background-color: blueviolet;
+    background-color: black;
 }
 
 #container {
@@ -20,6 +20,8 @@ body{
 #animBox {
     height: 60vh;
     position: relative;
+    background-color: aliceblue;
+    text-align: center;
 }
 
 #footer {
@@ -29,4 +31,20 @@ body{
 
 #animFooter {
     height: 10vh;
+}
+
+#desc {
+    height: 10%;
+}
+
+#item {
+    height: 50%;
+}
+
+#options {
+    height: 10%;
+}
+
+#keep, #sell {
+    margin: 10px;
 }

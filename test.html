@@ -13,15 +13,17 @@
        //Injecting animation in here
       var box = bodymovin.loadAnimation({
         container: document.getElementById("animBox"),
-        renderer: "html",
+        renderer: "svg",
         loop: true,
-        autoplay: false,
-        path: "assets/gfx/box/boxMerge.json"
+        autoplay: true,
+        path: "assets/gfx/cat/catA.json"
       }); //Actual animation. Declared on start function
+
+      /*
       box.addEventListener('DOMLoaded', () => { //NEEDED TO PLAY SEGEMENTS PROPERLY!!!!!
           box.playSegments([31,156], true); //Jump up and down (idle pose)
       });
-      
+      */
     </script>
   </body>
 </html>

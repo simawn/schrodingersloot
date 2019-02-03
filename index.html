@@ -20,6 +20,8 @@
     <script src="js/lottie.js"></script>
     <script>
         var boxElement = document.getElementById("animBox"); //Injecting animation in here
+        
+        //BOX
         var boxAnimParams = { //Animation params
             container: boxElement,
             renderer: "html",
@@ -29,8 +31,18 @@
         };
         var box; //Actual animation. Setup in start function
 
+        //CAT
+        var catAnimParams = {
+            container: boxElement,
+            renderer: "svg",
+            loop: true,
+            autoplay: true,
+            path: "assets/gfx/cat/catA.json"
+        };
+        var cat;
+
+        //START
         document.addEventListener("DOMContentLoaded", () => { //When content of the page is loaded
-            console.log("DOM Loaded");
             startBoxAnimation();
         });
 
@@ -40,6 +52,43 @@
 
         function showPrize(randNum){ //Process random number
             console.log(randNum);
+
+            var desc = document.createElement("div");
+            desc.setAttribute("id", "desc");
+            var h1 = document.createElement("h1");
+            var h1Text = document.createTextNode("You got an orange cat");
+            h1.appendChild(h1Text);
+            desc.appendChild(h1);
+            //Generate spot for item animation
+            var itemDiv = document.createElement("div");
+            itemDiv.setAttribute("id", "item");
+
+            //If cat:
+            catAnimParams.container = itemDiv; //Mod injection params
+            cat = bodymovin.loadAnimation(catAnimParams); //Load cat model
+
+            //Generate spot for buttons
+            var optionDiv = document.createElement("div");
+            optionDiv.setAttribute("id", "options");
+
+            //Keep
+            var button1 = document.createElement("button");
+            button1.setAttribute("id", "keep");
+            var button1Text = document.createTextNode("Keep");
+            button1.appendChild(button1Text);
+            optionDiv.appendChild(button1);
+
+            //Sell
+            var button1 = document.createElement("button");
+            button1.setAttribute("id", "sell");
+            var button1Text = document.createTextNode("Sell");
+            button1.appendChild(button1Text);
+            optionDiv.appendChild(button1);
+
+            //Inject elements
+            boxElement.appendChild(desc);
+            boxElement.appendChild(itemDiv);
+            boxElement.appendChild(optionDiv);
         }
 
         var clicked = false; //Checking for multiple clicks
@@ -54,8 +103,8 @@
             box.addEventListener("loopComplete", () => {
                 box.destroy();
                 showPrize(getPrize());
-                startBoxAnimation();
-                clicked = false; //Able to click on box again
+                //startBoxAnimation();
+                //clicked = false; //Able to click on box again
             });
         }
 
