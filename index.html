@@ -25,30 +25,20 @@
             container: boxElement,
             renderer: "html",
             loop: true,
-            autoplay: true,
+            autoplay: false,
             path: "assets/gfx/box/boxMerge.json"
         });
-        /*
         //Wait for page to load before starting animations
         box.addEventListener("DOMLoaded", () => {
-            box.playSegments([0,31], true); //Still
+            console.log("Loaded");
+            box.playSegments([31,156], true); //Still
         });
-        //Hover animation
-        //TODO: Mousein/mouseout anims
-        var mouseOver = false; //Need this to avoid repeated loops
-        boxElement.addEventListener("mouseover", () => {
-            if(mouseOver) return;
-            mouseOver = true;
-            box.playSegments([32, 178], true); //Animation bounce up
-            box.addEventListener("loopComplete", () => {
-                mouseOver = false;
-            });
-        });
-        //Click Event
+        //Click
         document.getElementById("animBox").addEventListener("click", () => {
-            
+            box.playSegments([210, 354], true);
+            box.loop = false;
         });
-        */
+
     </script>
 </body>
 </html>
