@@ -20,6 +20,8 @@
         </div>
         <div id="animBox"></div>
         <div id="footer">
+            <p>Click the box to open. Collect cats. Collect poison. Collect money. Collect them all. Totally not gambling.</p>
+            <p>Odds: 50% poison; 15% black cat; 10% black and white cat; 25% orange cat</p>
             <div id="animFooter"></div>
         </div>
     </div>
@@ -209,7 +211,7 @@
         var idleMode = true; 
 
         function startBoxAnimation(){
-
+            var curCash = getCookie("cash");
             document.getElementById("cAmt").innerHTML = "You have " + getCookie("cash") + "$";
 
             box = bodymovin.loadAnimation(boxAnimParams);
