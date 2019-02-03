@@ -134,7 +134,7 @@
             //Description field on item
             var desc = document.createElement("div");
             desc.setAttribute("id", "desc");
-            var h1 = document.createElement("h1");
+            var h1 = document.createElement("h2");
             var h1Text = document.createTextNode("You received: " + itemName);
             h1.appendChild(h1Text);
             desc.appendChild(h1);
@@ -209,7 +209,7 @@
         var idleMode = true; 
 
         function startBoxAnimation(){
-            
+
             document.getElementById("cAmt").innerHTML = "You have " + getCookie("cash") + "$";
 
             box = bodymovin.loadAnimation(boxAnimParams);
