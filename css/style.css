@@ -57,3 +57,7 @@ body{
 #collection .modal-footer {  
     justify-content: space-between;  
 }
+
+#itemThumb img{
+    height: 5vh;
+}

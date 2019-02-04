@@ -170,28 +170,45 @@
         }
 
         //not used yet
-        var itemDb = {
+        const itemDb = {
             0: {
                 itemName: "A black cat",
                 itemPath: "assets/gfx/cat/catBlack.json",
-                itemWorth: 37
+                itemWorth: 37,
+                itemThumb: "assets/img/small/catBlack.png",
             },
             1: {
                 itemName: "A black & white cat",
                 itemPath: "assets/gfx/cat/catBlackWhite.json",
-                itemWorth: 59
+                itemWorth: 59,
+                itemThumb: "assets/img/small/catWhiteBlack.png",
             },
             2: {
                 itemName: "An orange cat",
                 itemPath: "assets/gfx/cat/catA.json",
-                itemWorth: 23
+                itemWorth: 23,
+                itemThumb: "assets/img/small/catA.png",
             },
             3: {
                 itemName: "A poison flask",
                 itemPath: "assets/gfx/obj/poison.json",
-                itemWorth: 3
+                itemWorth: 3,
+                itemThumb: "assets/img/small/poison.png",
+            },
+            4: {
+                itemName: "A blue cat",
+                itemPath: "assets/gfx/obj/catBlue.json",
+                itemWorth: 67,
+                itemThumb: "assets/img/small/catBlue.png",
+            },
+            5: {
+                itemName: "Octocat",
+                itemPath: "assets/gfx/obj/octoCat.json",
+                itemWorth: 97,
+                itemThumb: "assets/img/small/octoCat.png",
             },
         };
+        const unknownItem = "assets/img/small/unknownCat.png";
 
         function showPrize(randNum) { //Process random number
             //Generate item
@@ -377,21 +394,27 @@
 
             var rowItemsDisplay = ""; //Need to be an empty string otherwise returns undefined
 
-            Object.keys(localStorage).forEach((key) => {
-                if (getItemAmount(key) <= 0) return;
+            Object.keys(itemDb).forEach((key) => {
+                var localStorageKey = localStorage.getItem(key);
                 rowItemsDisplay += "<tr>";
-                rowItemsDisplay += `<td>${itemDb[key]["itemName"]}</td>`;
-                rowItemsDisplay += `<td>${localStorage.getItem(key)}</td>`;
-                rowItemsDisplay += `<td><button class="btn btn-danger sell" id=${key}>${itemDb[key]["itemWorth"]}$</button></td>`;
-                rowItemsDisplay += "<tr>";
+                    rowItemsDisplay += `<td id="itemThumb"><img src="${localStorageKey && (getItemAmount(key) > 0)? itemDb[key]["itemThumb"] : unknownItem}"></td>`;
+                    rowItemsDisplay += `<td>${localStorageKey ? itemDb[key]["itemName"] : "???"}</td>`;
+                    rowItemsDisplay += `<td>${localStorageKey ? localStorage.getItem(key) : "???"}</td>`;
+                    if(localStorageKey && getItemAmount(key) > 0){
+                        rowItemsDisplay += `<td><button class="btn btn-danger sell" id=${key}>${itemDb[key]["itemWorth"]}$</button></td>`;
+                    } else {
+                        rowItemsDisplay += `<td></td>`;
+                    }
+                rowItemsDisplay += "</tr>";
             });
 
             document.getElementById("colItems").innerHTML = `
             <table class="table">
                 <thead>
-                    <th>Name</td>
-                    <th>Amount</td>
-                    <th>Sell</td>
+                    <th></th>
+                    <th>Name</th>
+                    <th>Amount</th>
+                    <th>Sell</th>
                 </thead>
                 <tbody>
                     ${rowItemsDisplay}
@@ -409,11 +432,13 @@
 
         function sell() {
             var itemCount = getItemAmount(this.id);
-            localStorage.setItem(this.id, itemCount - 1);
-            setCurrentCash(getCurrentCash() + itemDb[this.id]["itemWorth"]); //Should have a add cash method?
-            updateCashDisplayAmtCollection();
-            updateCashDisplayAmt();
-            updateCollection();
+            if(itemCount > 0) {
+                localStorage.setItem(this.id, itemCount - 1);
+                setCurrentCash(getCurrentCash() + itemDb[this.id]["itemWorth"]); //Should have a add cash method?
+                updateCashDisplayAmtCollection();
+                updateCashDisplayAmt();
+                updateCollection();
+            }
         }
 
         function restart(){
