@@ -306,6 +306,35 @@
             };
         }
 
+        //List collection items
+        document.getElementById("btnCollection").addEventListener("click", updateCollection);
+
+        function updateCollection(){
+            var col = localStorage;
+
+            document.getElementById("colItems").innerHTML = `
+            <table class="table">
+                <thead>
+                    <th>Name</td>
+                    <th>Amount</td>
+                    <th>Sell</td>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            `;
+        }
+
+        //SORRY. HORRIBLE. will fix refactor soon tm?
     </script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
