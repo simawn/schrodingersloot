@@ -1,5 +1,8 @@
 # 🐱 Schrodinger's Loot 📦
 
+# Try it out!
+http://schroloot.com/
+
 # Inspiration
 Who doesn't love opening mystery boxes?
 
