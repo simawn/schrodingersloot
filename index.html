@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     
     <link href="css/style.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
     <title>Schrodinger's Loot</title>
@@ -13,22 +14,26 @@
 <body>
     <div id="container">
         <div id="header">
-            <h1>Schrodinger's Loot</h1>
+            <h1>schroloot</h1>
         </div>
-        <div id="cash">
-            <h4 id="cAmt"></h4>
+        <div id="cash" >
+            <h4 id="cAmt" class="alert alert-primary"></h4>
+            <p>Click the box to open. (17$)</p>
         </div>
         <div id="animBox"></div>
         <div id="footer">
-            <p>Click the box to open. Collect cats. Collect poison. Collect money. Collect them all. Totally not gambling.</p>
-            <p>Odds: 50% poison; 15% black cat; 10% black and white cat; 25% orange cat</p>
-            <div id="animFooter"></div>
+            
+            <p>Totally not gambling.</p>
+            <a href="https://github.com/simawn/schrodingersloot" target="_blank"><i class="fab fa-github fa-2x"></i></a>
         </div>
     </div>
     <script src="js/lottie.js"></script>
     <script>
         //IT'S A COMPLETE MESS DOWN HERE BUT IT SOMEHOW WORKS. 
         //WILL SPLIT THEM INTO SPERATE FILES EVENTUALLY.
+
+        const BOXOPENINGCOST = 17;
+        const STARTCASH = 50;
 
         function getCookie(name) {
             var v = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
@@ -42,7 +47,19 @@
         }
 
         if(getCookie("cash") == null){
-            setCookie("cash", 50, 30);
+            setCookie("cash", STARTCASH, 30);
+        }
+
+        function updateCashDisplayAmt(){
+            document.getElementById("cAmt").innerHTML = "You have " + getCookie("cash") + "$";
+        }
+
+        function getCurrentCash(){
+            return parseInt(getCookie("cash"));
+        }
+
+        function setCurrentCash(amount){
+            setCookie("cash", amount, 30);
         }
 
         var boxElement = document.getElementById("animBox"); //Injecting animation in here
@@ -83,14 +100,15 @@
         });
 
         function getPrize(){ //RNG
-            return parseInt(Math.random()*100);
+            return parseInt(Math.random()*1000);
         }
 
         function showPrize(randNum){ //Process random number
             //Generate item
-            var a = parseInt(randNum/10);
-            var b = randNum%10
-            console.log(`RNG: ${randNum}, F: ${a}, L: ${b} `);
+            var a = parseInt(randNum/100);
+            var b = parseInt(randNum/10)%10;
+            var c = randNum%10; //Not used yet
+            console.log(`RNG: ${randNum}, A: ${a}, B: ${b}, C: ${c}`);
             var itemName;
             var itemParams;
             var item; //Animation load
@@ -101,7 +119,7 @@
 
             if(a <= 5){ //Cat
                 itemParams = catAnimParams;
-                worth = 50;
+                worth = 41;
                 switch(b){
                     case 1:
                     case 2:
@@ -124,7 +142,7 @@
                         break;
                 }
             } else { //Poison
-                worth = 10;
+                worth = 7;
                 itemParams = poisonAnimParams;
                 itemName = "A poison flask";
             }
@@ -182,8 +200,8 @@
             });
 
             button2.addEventListener("click", () => { //Sell
-                var newWalletValue = parseInt(getCookie("cash")) + worth;
-                setCookie("cash", newWalletValue, 30);
+                var newWalletValue = getCurrentCash() + worth;
+                setCurrentCash(newWalletValue);
                 resetStage();
             });
         }
@@ -195,6 +213,8 @@
             idleMode = false;
             clicked = true; //Avoid multiple clicks
             box.playSegments([210, 290], true); //210-354 FOR FULL LENGTH
+            setCurrentCash(getCurrentCash() - BOXOPENINGCOST);
+            updateCashDisplayAmt();
             getPrize();
             box.addEventListener("loopComplete", () => {
                 box.destroy();
@@ -202,7 +222,8 @@
             });
         }
 
-        
+
+
         /*
         When pressing on "Keep" or "Sell", it will register as a 
         click and go immediately to opening box. We don't want that to happen.
@@ -211,15 +232,21 @@
         var idleMode = true; 
 
         function startBoxAnimation(){
-            var curCash = getCookie("cash");
-            document.getElementById("cAmt").innerHTML = "You have " + getCookie("cash") + "$";
+            var curCash = getCurrentCash();
+            updateCashDisplayAmt();
 
             box = bodymovin.loadAnimation(boxAnimParams);
             box.addEventListener("DOMLoaded", () => { //When animation data is loaded
                 idleMode = true;
                 box.playSegments([31,156], true); //Jump up and down (idle pose)
                 boxElement.addEventListener("click", () => {
-                    if(idleMode) openBox();
+                    if(curCash < 20){
+                        alert("Looks like you have ran out of cash :(. Here's 50$");
+                        setCurrentCash(curCash + 50);
+                        updateCashDisplayAmt();
+                        curCash = getCurrentCash();
+                    }
+                    else if(idleMode && curCash >= 20) openBox();
                 });
             });
             
