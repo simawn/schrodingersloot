@@ -280,7 +280,6 @@
 
         function startBoxAnimation() {
             
-
             box = bodymovin.loadAnimation(boxAnimParams);
             box.addEventListener("DOMLoaded", () => { //When animation data is loaded
 
@@ -295,8 +294,7 @@
                 box.playSegments([31, 156], true); //Jump up and down (idle pose)
                 
                 boxElement.addEventListener("click", () => {
-                    console.log("CLICKED: in idle mode: " + idleMode);
-                    console.log("curcash < 20?????: " + (curCash < BOXOPENINGCOST));
+                    console.log("curcash < 17?????: " + (curCash < BOXOPENINGCOST));
                     if ((curCash < BOXOPENINGCOST) && idleMode) {
                         console.log("in debt");
                         //alert("Looks like you have ran out of cash :(. Here's 50$");
