@@ -49,3 +49,7 @@ body{
 #keep, #sell {
     margin: 10px;
 }
+
+.modal-body p {
+    text-align: center;
+}

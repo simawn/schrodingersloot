@@ -36,7 +36,7 @@
         </div>
     </div>
 
-    <!--INVENTORY-->
+    <!--COLLECTION-->
 
     <div class="modal fade" id="collection" tabindex="-1" role="dialog" aria-labelledby="collectionLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -48,6 +48,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
+                    <p id="colCashDisp"></p>
                     <div id="colItems"></div>
                 </div>
                 <div class="modal-footer">
@@ -61,7 +62,8 @@
 
     <script src="js/lottie.js"></script>
     <script>
-        //IT'S A COMPLETE MESS DOWN HERE BUT IT SOMEHOW WORKS. 
+        //IT'S A COMPLETE MESS DOWN HERE BUT IT WORKS!!!
+        //THIS WAS INITIALLY CODED UNDER 24 HOURS AT MCHACKS6
         //WILL SPLIT THEM INTO SPERATE FILES EVENTUALLY.
 
         const BOXOPENINGCOST = 17;
@@ -267,12 +269,12 @@
 
             //Button actions
             button1.addEventListener("click", () => { //Keep
-                var itemAmount = getItemAmount(itemName);
+                var itemAmount = getItemAmount(itemId);
                 //console.log(itemAmount);
                 if (itemAmount === undefined) {
-                    localStorage.setItem(itemName, 1);
+                    localStorage.setItem(itemId, 1);
                 } else {
-                    localStorage.setItem(itemName, itemAmount + 1);
+                    localStorage.setItem(itemId, itemAmount + 1);
                 }
                 resetStage();
             });
@@ -345,11 +347,11 @@
             var rowItemsDisplay = ""; //Need to be an empty string otherwise returns undefined
 
             Object.keys(localStorage).forEach((key) => {
-                var keyNoSpace = key.split(' ').join('_'); //Replace space to _, for id. Likely to change in the future.
+                if(getItemAmount(key) <= 0) return;
                 rowItemsDisplay += "<tr>";
-                    rowItemsDisplay += `<td>${key}</td>`;
+                    rowItemsDisplay += `<td>${itemDb[key]["itemName"]}</td>`;
                     rowItemsDisplay += `<td>${localStorage.getItem(key)}</td>`;
-                    rowItemsDisplay += `<td><button class="btn btn-danger" id=${keyNoSpace}>Sell</button></td>`;
+                    rowItemsDisplay += `<td><button class="btn btn-danger sell" id=${key}>${itemDb[key]["itemWorth"]}$</button></td>`;
                 rowItemsDisplay += "<tr>";
             });
 
@@ -364,6 +366,20 @@
                     ${rowItemsDisplay}
                 </tbody>
             `;
+
+            //Sell button
+            var classSell = document.getElementsByClassName("sell");
+            for (var i = 0; i < classSell.length; i++){
+                classSell[i].addEventListener("click", sell);
+            }
+        }
+
+        function sell() {
+            var itemCount = getItemAmount(this.id);
+            localStorage.setItem(this.id, itemCount - 1);
+            setCurrentCash(getCurrentCash() + itemDb[this.id]["itemWorth"]); //Should have a add cash method?
+            updateCashDisplayAmt();
+            updateCollection();
         }
 
         //SORRY. HORRIBLE. will fix refactor soon tm?
