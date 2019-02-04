@@ -53,3 +53,7 @@ body{
 .modal-body p {
     text-align: center;
 }
+
+#collection .modal-footer {  
+    justify-content: space-between;  
+}

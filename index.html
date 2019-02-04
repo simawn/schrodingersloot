@@ -52,6 +52,29 @@
                     <div id="colItems"></div>
                 </div>
                 <div class="modal-footer">
+                    <button type="button" onclick=restart() class="btn btn-outline-danger" data-dismiss="modal">Restart</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--OUT OF CASH POPUP-->
+
+    <div class="modal fade" id="oocpop" tabindex="-1" role="dialog" aria-labelledby="oocpoplabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="oocpoplabel">Out of cash! 😿</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Oh no! You can't afford to open this box! Go sell some items in your collection or restart the game.
+                </div>
+                <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
@@ -88,7 +111,7 @@
             document.getElementById("cAmt").innerHTML = "💸 " + getCookie("cash") + "$ 💵";
         }
 
-        function updateCashDisplayAmtCollection(){
+        function updateCashDisplayAmtCollection() {
             document.getElementById("colCashDisp").innerHTML = "💸 " + getCookie("cash") + "$ 💵";
         }
 
@@ -334,10 +357,13 @@
         function clickOpen() {
             var curCash = getCurrentCash();
             if ((curCash < BOXOPENINGCOST) && idleMode) {
+                $('#oocpop').modal('show');
+                /* feeling generous?
                 alert("Looks like you have ran out of cash :(. Here's 50$");
                 setCurrentCash(curCash + 50);
                 updateCashDisplayAmt();
                 curCash = getCurrentCash();
+                */
             }
             else if (idleMode && curCash >= BOXOPENINGCOST) {
                 openBox();
@@ -347,16 +373,16 @@
         //List collection items
         document.getElementById("btnCollection").addEventListener("click", updateCollection);
 
-        function updateCollection(){
-            
+        function updateCollection() {
+
             var rowItemsDisplay = ""; //Need to be an empty string otherwise returns undefined
 
             Object.keys(localStorage).forEach((key) => {
-                if(getItemAmount(key) <= 0) return;
+                if (getItemAmount(key) <= 0) return;
                 rowItemsDisplay += "<tr>";
-                    rowItemsDisplay += `<td>${itemDb[key]["itemName"]}</td>`;
-                    rowItemsDisplay += `<td>${localStorage.getItem(key)}</td>`;
-                    rowItemsDisplay += `<td><button class="btn btn-danger sell" id=${key}>${itemDb[key]["itemWorth"]}$</button></td>`;
+                rowItemsDisplay += `<td>${itemDb[key]["itemName"]}</td>`;
+                rowItemsDisplay += `<td>${localStorage.getItem(key)}</td>`;
+                rowItemsDisplay += `<td><button class="btn btn-danger sell" id=${key}>${itemDb[key]["itemWorth"]}$</button></td>`;
                 rowItemsDisplay += "<tr>";
             });
 
@@ -374,10 +400,10 @@
 
             //Sell button
             var classSell = document.getElementsByClassName("sell");
-            for (var i = 0; i < classSell.length; i++){
+            for (var i = 0; i < classSell.length; i++) {
                 classSell[i].addEventListener("click", sell);
             }
-            
+
             updateCashDisplayAmtCollection();
         }
 
@@ -390,6 +416,15 @@
             updateCollection();
         }
 
+        function restart(){
+            var restart = confirm("Are you sure you want to restart the game? All your progress and cash will be wiped out!");
+            if (restart) {
+                localStorage.clear();
+                setCurrentCash(STARTCASH);
+                updateCashDisplayAmt();
+                updateCashDisplayAmtCollection();
+            }
+        }
         //SORRY. HORRIBLE. will fix refactor soon tm?
     </script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
