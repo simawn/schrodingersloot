@@ -14,7 +14,7 @@
 <body>
     <div id="container">
         <div id="header">
-            <h1>schroloot</h1>
+            <h1>😸 schroloot 📦</h1>
         </div>
         <div id="cash" >
             <h4 id="cAmt" class="alert alert-primary"></h4>
@@ -51,7 +51,7 @@
         }
 
         function updateCashDisplayAmt(){
-            document.getElementById("cAmt").innerHTML = "You have " + getCookie("cash") + "$";
+            document.getElementById("cAmt").innerHTML = "You have " + getCookie("cash") + "$ 💸";
         }
 
         function getCurrentCash(){
@@ -119,18 +119,19 @@
 
             if(a <= 5){ //Cat
                 itemParams = catAnimParams;
-                worth = 41;
                 switch(b){
                     case 1:
                     case 2:
                     case 3:
-                        itemName = "A black cat"
-                        itemParams.path = "assets/gfx/cat/catBlack.json"
+                        itemName = "A black cat";
+                        itemParams.path = "assets/gfx/cat/catBlack.json";
+                        worth = 37;
                         break;
                     case 4:
                     case 5:
                         itemName = "A black and white cat";
-                        itemParams.path = "assets/gfx/cat/catBlackWhite.json"
+                        itemParams.path = "assets/gfx/cat/catBlackWhite.json";
+                        worth = 59;
                         break;
                     case 6:
                     case 7: 
@@ -138,11 +139,12 @@
                     case 9: 
                     case 0:
                         itemName = "An orange cat";
-                        itemParams.path = "assets/gfx/cat/catA.json"
+                        itemParams.path = "assets/gfx/cat/catA.json";
+                        worth = 23;
                         break;
                 }
             } else { //Poison
-                worth = 7;
+                worth = 3;
                 itemParams = poisonAnimParams;
                 itemName = "A poison flask";
             }
