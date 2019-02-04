@@ -1,32 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    
+    <meta name="description" content="Lootbox Simulator. Collect cats. Collect poison. Collect money. Collect them all. Totally not gambling." />
+
     <link href="css/style.css" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
-    <title>Schrodinger's Loot</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+        crossorigin="anonymous">
+    <title>schroloot - Schrodinger's Loot</title>
 </head>
+
 <body>
+
+    <!--MAIN PAGE-->
+
     <div id="container">
         <div id="header">
             <h1>😸 schroloot 📦</h1>
+
         </div>
-        <div id="cash" >
+        <div id="inventory"><button class="btn btn-primary" data-toggle="modal" data-target="#collection" id="btnCollection">Collection</button></div>
+        <div id="cash">
             <h4 id="cAmt" class="alert alert-primary"></h4>
             <p>Click the box to open. (17$)</p>
         </div>
         <div id="animBox"></div>
         <div id="footer">
-            
             <p>Totally not gambling.</p>
             <a href="https://github.com/simawn/schrodingersloot" target="_blank"><i class="fab fa-github fa-2x"></i></a>
         </div>
     </div>
+
+    <!--INVENTORY-->
+
+    <div class="modal fade" id="collection" tabindex="-1" role="dialog" aria-labelledby="collectionLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="collectionLabel">Collection</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="colItems"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--JAVASCRIPT-->
+    
     <script src="js/lottie.js"></script>
     <script>
         //IT'S A COMPLETE MESS DOWN HERE BUT IT SOMEHOW WORKS. 
@@ -42,28 +75,29 @@
 
         function setCookie(name, value, days) {
             var d = new Date;
-            d.setTime(d.getTime() + 24*60*60*1000*days);
+            d.setTime(d.getTime() + 24 * 60 * 60 * 1000 * days);
             document.cookie = name + "=" + value + ";path=/;expires=" + d.toGMTString();
         }
 
-        if(getCookie("cash") == null){
+        if (getCookie("cash") == null) {
             setCookie("cash", STARTCASH, 30);
         }
 
-        function updateCashDisplayAmt(){
-            document.getElementById("cAmt").innerHTML = "You have " + getCookie("cash") + "$ 💸";
+        function updateCashDisplayAmt() {
+            document.getElementById("cAmt").innerHTML = "💸 " + getCookie("cash") + "$ 💵";
         }
 
-        function getCurrentCash(){
+        function getCurrentCash() {
             return parseInt(getCookie("cash"));
         }
 
-        function setCurrentCash(amount){
+        function setCurrentCash(amount) {
             setCookie("cash", amount, 30);
         }
 
+
         var boxElement = document.getElementById("animBox"); //Injecting animation in here
-        
+
         //BOX
         var boxAnimParams = { //Animation params
             container: boxElement,
@@ -99,15 +133,15 @@
             startBoxAnimation();
         });
 
-        function getPrize(){ //RNG
-            return parseInt(Math.random()*1000);
+        function getPrize() { //RNG
+            return parseInt(Math.random() * 1000);
         }
 
-        function showPrize(randNum){ //Process random number
+        function showPrize(randNum) { //Process random number
             //Generate item
-            var a = parseInt(randNum/100);
-            var b = parseInt(randNum/10)%10;
-            var c = randNum%10; //Not used yet
+            var a = parseInt(randNum / 100);
+            var b = parseInt(randNum / 10) % 10;
+            var c = randNum % 10; //Not used yet
             console.log(`RNG: ${randNum}, A: ${a}, B: ${b}, C: ${c}`);
             var itemName;
             var itemParams;
@@ -117,9 +151,9 @@
             var itemDiv = document.createElement("div");
             itemDiv.setAttribute("id", "item");
 
-            if(a <= 5){ //Cat
+            if (a <= 5) { //Cat
                 itemParams = catAnimParams;
-                switch(b){
+                switch (b) {
                     case 1:
                     case 2:
                     case 3:
@@ -129,14 +163,14 @@
                         break;
                     case 4:
                     case 5:
-                        itemName = "A black and white cat";
+                        itemName = "A black & white cat";
                         itemParams.path = "assets/gfx/cat/catBlackWhite.json";
                         worth = 59;
                         break;
                     case 6:
-                    case 7: 
+                    case 7:
                     case 8:
-                    case 9: 
+                    case 9:
                     case 0:
                         itemName = "An orange cat";
                         itemParams.path = "assets/gfx/cat/catA.json";
@@ -148,7 +182,7 @@
                 itemParams = poisonAnimParams;
                 itemName = "A poison flask";
             }
-            
+
             //Item animation display
             itemParams.container = itemDiv; //Mod injection params
             item = bodymovin.loadAnimation(itemParams); //Load cat model
@@ -157,7 +191,7 @@
             var desc = document.createElement("div");
             desc.setAttribute("id", "desc");
             var h1 = document.createElement("h2");
-            var h1Text = document.createTextNode("You received: " + itemName);
+            var h1Text = document.createTextNode("You looted: " + itemName);
             h1.appendChild(h1Text);
             desc.appendChild(h1);
 
@@ -187,7 +221,7 @@
             boxElement.appendChild(optionDiv);
 
             //When clicking on a button, reset everything
-            function resetStage(){
+            function resetStage() {
                 item.destroy();
                 boxElement.removeChild(desc);
                 boxElement.removeChild(itemDiv);
@@ -210,8 +244,8 @@
 
         var clicked = false; //Checking for multiple clicks
 
-        function openBox(){
-            if(clicked) return;
+        function openBox() {
+            if (clicked) return;
             idleMode = false;
             clicked = true; //Avoid multiple clicks
             box.playSegments([210, 290], true); //210-354 FOR FULL LENGTH
@@ -231,30 +265,35 @@
         click and go immediately to opening box. We don't want that to happen.
         So we create an idleMode flag to prevent that
         */
-        var idleMode = true; 
+        var idleMode = true;
 
-        function startBoxAnimation(){
+        function startBoxAnimation() {
             var curCash = getCurrentCash();
             updateCashDisplayAmt();
 
             box = bodymovin.loadAnimation(boxAnimParams);
             box.addEventListener("DOMLoaded", () => { //When animation data is loaded
                 idleMode = true;
-                box.playSegments([31,156], true); //Jump up and down (idle pose)
+                box.playSegments([31, 156], true); //Jump up and down (idle pose)
                 boxElement.addEventListener("click", () => {
-                    if(curCash < 20){
+                    if (curCash < 20) {
                         alert("Looks like you have ran out of cash :(. Here's 50$");
                         setCurrentCash(curCash + 50);
                         updateCashDisplayAmt();
                         curCash = getCurrentCash();
                     }
-                    else if(idleMode && curCash >= 20) openBox();
+                    else if (idleMode && curCash >= 20) openBox();
                 });
             });
-            
-        }
 
-        
+        }
     </script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+        crossorigin="anonymous"></script>
 </body>
+
 </html>
