@@ -38,8 +38,7 @@
 
     <!--INVENTORY-->
 
-    <div class="modal fade" id="collection" tabindex="-1" role="dialog" aria-labelledby="collectionLabel"
-        aria-hidden="true">
+    <div class="modal fade" id="collection" tabindex="-1" role="dialog" aria-labelledby="collectionLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -59,7 +58,7 @@
     </div>
 
     <!--JAVASCRIPT-->
-    
+
     <script src="js/lottie.js"></script>
     <script>
         //IT'S A COMPLETE MESS DOWN HERE BUT IT SOMEHOW WORKS. 
@@ -97,7 +96,7 @@
 
         function getItemAmount(itemName) {
             var itemCount = localStorage.getItem(itemName);
-            if(itemCount != null) return parseInt(itemCount);
+            if (itemCount != null) return parseInt(itemCount);
         }
 
         var boxElement = document.getElementById("animBox"); //Injecting animation in here
@@ -238,7 +237,7 @@
             button1.addEventListener("click", () => { //Keep
                 var itemAmount = getItemAmount(itemName);
                 //console.log(itemAmount);
-                if(itemAmount === undefined){
+                if (itemAmount === undefined) {
                     localStorage.setItem(itemName, 1);
                 } else {
                     localStorage.setItem(itemName, itemAmount + 1);
@@ -279,36 +278,34 @@
         var idleMode = true;
 
         function startBoxAnimation() {
-            
+
             box = bodymovin.loadAnimation(boxAnimParams);
             box.addEventListener("DOMLoaded", () => { //When animation data is loaded
 
-                console.log("=====start anim")
-
                 var curCash = getCurrentCash();
                 updateCashDisplayAmt();
-                console.log("cash: " + curCash);
 
                 idleMode = true;
 
                 box.playSegments([31, 156], true); //Jump up and down (idle pose)
-                
-                boxElement.addEventListener("click", () => {
-                    console.log("curcash < 17?????: " + (curCash < BOXOPENINGCOST));
-                    if ((curCash < BOXOPENINGCOST) && idleMode) {
-                        console.log("in debt");
-                        //alert("Looks like you have ran out of cash :(. Here's 50$");
-                        setCurrentCash(curCash + 50);
-                        updateCashDisplayAmt();
-                        curCash = getCurrentCash();
-                    }
-                    else if (idleMode && curCash >= BOXOPENINGCOST) {
-                            console.log("in open");
-                            openBox()
-                        };
-                });
+
+                boxElement.addEventListener("click", clickOpen);
             });
         }
+
+        function clickOpen() {
+            var curCash = getCurrentCash();
+            if ((curCash < BOXOPENINGCOST) && idleMode) {
+                alert("Looks like you have ran out of cash :(. Here's 50$");
+                setCurrentCash(curCash + 50);
+                updateCashDisplayAmt();
+                curCash = getCurrentCash();
+            }
+            else if (idleMode && curCash >= BOXOPENINGCOST) {
+                openBox();
+            };
+        }
+
     </script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
