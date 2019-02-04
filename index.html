@@ -88,6 +88,10 @@
             document.getElementById("cAmt").innerHTML = "💸 " + getCookie("cash") + "$ 💵";
         }
 
+        function updateCashDisplayAmtCollection(){
+            document.getElementById("colCashDisp").innerHTML = "💸 " + getCookie("cash") + "$ 💵";
+        }
+
         function getCurrentCash() {
             return parseInt(getCookie("cash"));
         }
@@ -344,6 +348,7 @@
         document.getElementById("btnCollection").addEventListener("click", updateCollection);
 
         function updateCollection(){
+            
             var rowItemsDisplay = ""; //Need to be an empty string otherwise returns undefined
 
             Object.keys(localStorage).forEach((key) => {
@@ -372,12 +377,15 @@
             for (var i = 0; i < classSell.length; i++){
                 classSell[i].addEventListener("click", sell);
             }
+            
+            updateCashDisplayAmtCollection();
         }
 
         function sell() {
             var itemCount = getItemAmount(this.id);
             localStorage.setItem(this.id, itemCount - 1);
             setCurrentCash(getCurrentCash() + itemDb[this.id]["itemWorth"]); //Should have a add cash method?
+            updateCashDisplayAmtCollection();
             updateCashDisplayAmt();
             updateCollection();
         }
