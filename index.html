@@ -140,6 +140,30 @@
             return parseInt(Math.random() * 1000);
         }
 
+        //not used yet
+        var itemDb = {
+            0: {
+                itemName: "A black cat",
+                itemPath: "assets/gfx/cat/catBlack.json",
+                itemWorth: 37
+            },
+            1: {
+                itemName: "A black & white cat",
+                itemPath: "assets/gfx/cat/catBlackWhite.json",
+                itemWorth: 59
+            },
+            2: {
+                itemName: "An orange cat",
+                itemPath: "assets/gfx/cat/catA.json",
+                itemWorth: 23
+            },
+            3: {
+                itemName: "A poison flask",
+                itemPath: "assets/gfx/obj/poison.json",
+                itemWorth: 3
+            },
+        };
+
         function showPrize(randNum) { //Process random number
             //Generate item
             var a = parseInt(randNum / 100);
@@ -161,12 +185,14 @@
                     case 2:
                     case 3:
                         itemName = "A black cat";
+                        itemId = 0;
                         itemParams.path = "assets/gfx/cat/catBlack.json";
                         worth = 37;
                         break;
                     case 4:
                     case 5:
                         itemName = "A black & white cat";
+                        itemId = 1;
                         itemParams.path = "assets/gfx/cat/catBlackWhite.json";
                         worth = 59;
                         break;
@@ -176,6 +202,7 @@
                     case 9:
                     case 0:
                         itemName = "An orange cat";
+                        itemId = 2;
                         itemParams.path = "assets/gfx/cat/catA.json";
                         worth = 23;
                         break;
@@ -184,6 +211,7 @@
                 worth = 3;
                 itemParams = poisonAnimParams;
                 itemName = "A poison flask";
+                itemId = 3;
             }
 
             //Item animation display
@@ -310,7 +338,16 @@
         document.getElementById("btnCollection").addEventListener("click", updateCollection);
 
         function updateCollection(){
-            var col = localStorage;
+            var rowItemsDisplay = ""; //Need to be an empty string otherwise returns undefined
+
+            Object.keys(localStorage).forEach((key) => {
+                var keyNoSpace = key.split(' ').join('_'); //Replace space to _, for id. Likely to change in the future.
+                rowItemsDisplay += "<tr>";
+                    rowItemsDisplay += `<td>${key}</td>`;
+                    rowItemsDisplay += `<td>${localStorage.getItem(key)}</td>`;
+                    rowItemsDisplay += `<td><button class="btn btn-danger" id=${keyNoSpace}>Sell</button></td>`;
+                rowItemsDisplay += "<tr>";
+            });
 
             document.getElementById("colItems").innerHTML = `
             <table class="table">
@@ -320,16 +357,7 @@
                     <th>Sell</td>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
+                    ${rowItemsDisplay}
                 </tbody>
             `;
         }
