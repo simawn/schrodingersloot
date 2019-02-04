@@ -174,44 +174,48 @@
             var itemParams;
             var item; //Animation load
             var worth; //Sell amount
+            var itemId;
             //Generate spot for item animation
             var itemDiv = document.createElement("div");
             itemDiv.setAttribute("id", "item");
 
             if (a <= 5) { //Cat
-                itemParams = catAnimParams;
+                itemParams = catAnimParams; //Load anim details
+
                 switch (b) {
                     case 1:
                     case 2:
                     case 3:
-                        itemName = "A black cat";
                         itemId = 0;
-                        itemParams.path = "assets/gfx/cat/catBlack.json";
-                        worth = 37;
+                        itemName = itemDb[itemId]["itemName"];
+                        itemParams.path = itemDb[itemId]["itemPath"];
+                        worth = itemDb[itemId]["itemWorth"];
                         break;
                     case 4:
                     case 5:
-                        itemName = "A black & white cat";
                         itemId = 1;
-                        itemParams.path = "assets/gfx/cat/catBlackWhite.json";
-                        worth = 59;
+                        itemName = itemDb[itemId]["itemName"];
+                        itemParams.path = itemDb[itemId]["itemPath"];
+                        worth = itemDb[itemId]["itemWorth"];
                         break;
                     case 6:
                     case 7:
                     case 8:
                     case 9:
                     case 0:
-                        itemName = "An orange cat";
                         itemId = 2;
-                        itemParams.path = "assets/gfx/cat/catA.json";
-                        worth = 23;
+                        itemName = itemDb[itemId]["itemName"];
+                        itemParams.path = itemDb[itemId]["itemPath"];
+                        worth = itemDb[itemId]["itemWorth"];
                         break;
                 }
             } else { //Poison
-                worth = 3;
-                itemParams = poisonAnimParams;
-                itemName = "A poison flask";
+                itemParams = poisonAnimParams; //load anim details
+
                 itemId = 3;
+                itemName = itemDb[itemId]["itemName"];
+                itemParams.path = itemDb[itemId]["itemPath"];
+                worth = itemDb[itemId]["itemWorth"];
             }
 
             //Item animation display
