@@ -91,3 +91,7 @@ body{
 .list-group-item h4{
     text-align: center;
 }
+
+#btnRestart {
+    text-align: center;
+}
