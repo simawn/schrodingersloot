@@ -64,19 +64,19 @@ body{
     height: 5vh;
 }
 
-#common {
+.common {
     color: black;
 }
 
-#uncommon {
+.uncommon {
     color: darkcyan;
 }
 
-#rare {
+.rare {
     color: purple;
 }
 
-#mythic {
+.mythic {
     color: orangered;
 }
 
