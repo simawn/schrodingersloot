@@ -5,7 +5,7 @@ const itemDb = {
         itemWorth: 36,
         itemThumb: "assets/img/small/catBlack.png",
         itemChance: 0.1,
-        itemType: "uncommon",
+        itemRarity: "uncommon",
     },
     1: {
         itemName: "White Striped Cat",
@@ -13,7 +13,7 @@ const itemDb = {
         itemWorth: 36,
         itemThumb: "assets/img/small/catWhiteBlack.png",
         itemChance: 0.1,
-        itemType: "uncommon",
+        itemRarity: "uncommon",
     },
     2: {
         itemName: "Orange cat",
@@ -21,7 +21,7 @@ const itemDb = {
         itemWorth: 36,
         itemThumb: "assets/img/small/catA.png",
         itemChance: 0.1,
-        itemType: "uncommon",
+        itemRarity: "uncommon",
     },
     3: {
         itemName: "Poison Flask",
@@ -29,7 +29,7 @@ const itemDb = {
         itemWorth: 9,
         itemThumb: "assets/img/small/poison.png",
         itemChance: 0.5,
-        itemType: "common",
+        itemRarity: "common",
     },
     4: {
         itemName: "Blue Cat",
@@ -37,7 +37,7 @@ const itemDb = {
         itemWorth: 91,
         itemThumb: "assets/img/small/catBlue.png",
         itemChance: 0.05,
-        itemType: "rare",
+        itemRarity: "rare",
     },
     5: {
         itemName: "Octocat",
@@ -45,7 +45,7 @@ const itemDb = {
         itemWorth: 96,
         itemThumb: "assets/img/small/octoCat.png",
         itemChance: 0.045,
-        itemType: "rare",
+        itemRarity: "rare",
     },
     6: {
         itemName: "Lucky Cat",
@@ -53,7 +53,7 @@ const itemDb = {
         itemWorth: 8888,
         itemThumb: "assets/img/small/luckyCat.png",
         itemChance: 0.005,
-        itemType: "mythic",
+        itemRarity: "mythic",
     },
     7: {
         itemName: "Meowth",
@@ -61,7 +61,7 @@ const itemDb = {
         itemWorth: 91,
         itemThumb: "assets/img/small/meowth.png",
         itemChance: 0.05,
-        itemType: "rare",
+        itemRarity: "rare",
     },
     8: {
         itemName: "Polite Cat",
@@ -69,6 +69,6 @@ const itemDb = {
         itemWorth: 91,
         itemThumb: "assets/img/small/catPolite.png",
         itemChance: 0.05,
-        itemType: "rare",
+        itemRarity: "rare",
     },
 };

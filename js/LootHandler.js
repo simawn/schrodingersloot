@@ -66,7 +66,7 @@ function showPrize(randNum) { //Process random number
     var desc = document.createElement("div");
     desc.setAttribute("id", "desc");
     var h1 = document.createElement("h2");
-    h1.setAttribute("class", itemDb[itemId]["itemType"]);
+    h1.setAttribute("class", itemDb[itemId]["itemRarity"]);
     var h1Text = document.createTextNode(itemName);
     h1.appendChild(h1Text);
     desc.appendChild(h1);
