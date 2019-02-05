@@ -131,7 +131,7 @@ function showPrize(randNum) {
     var keepButton = document.createElement("button");
     keepButton.setAttribute("id", "keep");
     keepButton.setAttribute("class", "btn btn-success");
-    var button1Text = document.createTextNode("Keep");
+    var button1Text = document.createTextNode("Open more");
     keepButton.appendChild(button1Text);
     itemOptionDiv.appendChild(keepButton);
 
