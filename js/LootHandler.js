@@ -1,8 +1,7 @@
 var boxElement = document.getElementById("animBox"); //Injecting animation in id=animBox
 
-//BOX
+//Box animation params for Lottie
 var boxAnimParams = {
-  //Animation params
   container: boxElement,
   renderer: "html",
   loop: true,
@@ -10,10 +9,10 @@ var boxAnimParams = {
   path: "assets/gfx/box/boxMerge.json"
 };
 
-var box; //Actual animation. Setup in start function
+var boxAnimation; //Actual animation. Setup in start function
 
-//itemParams. Orangecat is default.
-var itemParams = {
+//Item animation params for Lottie. Orange Cat is default.
+var itemAnimParams = {
   container: boxElement,
   renderer: "svg",
   loop: true,
@@ -36,47 +35,36 @@ var idleMode = true;
 
 function startBoxAnimation() {
 
-    box = bodymovin.loadAnimation(boxAnimParams);
-    box.addEventListener("DOMLoaded", () => { //When animation data is loaded
-
-        var curCash = getCurrentCash();
+    boxAnimation = bodymovin.loadAnimation(boxAnimParams);
+    boxAnimation.addEventListener("DOMLoaded", () => { //When animation data is loaded
         updateCashDisplayAmt();
-
         idleMode = true;
-
-        box.playSegments([31, 156], true); //Jump up and down (idle pose)
-
+        boxAnimation.playSegments([31, 156], true); //Jump up and down (idle pose)
         boxElement.addEventListener("click", clickOpen);
     });
 }
 
 function clickOpen() {
     var curCash = getCurrentCash();
-    if ((curCash < BOXOPENINGCOST) && idleMode) {
+    if (idleMode && curCash < BOXOPENINGCOST) {
         $('#oocpop').modal('show');
-        /* feeling generous?
-        alert("Looks like you have ran out of cash :(. Here's 50$");
-        setCurrentCash(curCash + 50);
-        updateCashDisplayAmt();
-        curCash = getCurrentCash();
-        */
     }
     else if (idleMode && curCash >= BOXOPENINGCOST) {
         openBox();
     };
 }
 
-var clicked = false; //Checking for multiple clicks
+var clicked = false; //Prevents spam click triggers
 
 function openBox() {
     if (clicked) return;
     idleMode = false;
-    clicked = true; //Avoid multiple clicks
-    box.playSegments([210, 290], true); //210-354 FOR FULL LENGTH
+    clicked = true;
+    boxAnimation.playSegments([210, 290], true); //Box opening animation. 210-354 for full length
     setCurrentCash(getCurrentCash() - BOXOPENINGCOST);
     updateCashDisplayAmt();
-    box.addEventListener("loopComplete", () => {
-        box.destroy();
+    boxAnimation.addEventListener("loopComplete", () => { //When the animation is over
+        boxAnimation.destroy();
         showPrize(getRandom());
     });
 }
@@ -85,20 +73,21 @@ function getRandom() {
   return Math.random();
 }
 
-function showPrize(randNum) { //Process random number
-    var itemName; //set
-    var item; //Animation load
-    var worth; //set
-    var itemId; //set
+function showPrize(randNum) {
+    var itemAnimation;
+    var itemName;
+    var itemWorth;
+    var itemId;
 
+    //RNG
     for(var i = 0; i < Object.keys(itemDb).length; i++){
         var key = Object.keys(itemDb)[i]; //In case we have keys other than ints
         var itemChance = itemDb[key]["itemChance"];
         
         if(randNum < itemChance){
             itemName = itemDb[key]["itemName"];
-            itemParams.path = itemDb[key]["itemPath"];
-            worth = itemDb[key]["itemWorth"];
+            itemAnimParams.path = itemDb[key]["itemPath"];
+            itemWorth = itemDb[key]["itemWorth"];
             itemId = key;
             break;
         }
@@ -110,57 +99,46 @@ function showPrize(randNum) { //Process random number
     itemDiv.setAttribute("id", "item");
 
     //Item animation display
-    itemParams.container = itemDiv; //Mod injection params
-    item = bodymovin.loadAnimation(itemParams); //Load cat model
+    itemAnimParams.container = itemDiv; //Override default item container
+    itemAnimation = bodymovin.loadAnimation(itemAnimParams);
 
-    //Description field on item
-    var desc = document.createElement("div");
-    desc.setAttribute("id", "desc");
+    //Generate area for item name
+    var itemDescDiv = document.createElement("div");
+    itemDescDiv.setAttribute("id", "desc");
     var h1 = document.createElement("h2");
     h1.setAttribute("class", itemDb[itemId]["itemRarity"]);
-    var h1Text = document.createTextNode(itemName);
+    var h1Text = document.createTextNode(itemName); //Display item name
     h1.appendChild(h1Text);
-    desc.appendChild(h1);
+    itemDescDiv.appendChild(h1);
 
-    //Generate spot for buttons
-    var optionDiv = document.createElement("div");
-    optionDiv.setAttribute("id", "options");
+    //Generate area for buttons
+    var itemOptionDiv = document.createElement("div");
+    itemOptionDiv.setAttribute("id", "options");
 
-    //Keep
-    var button1 = document.createElement("button");
-    button1.setAttribute("id", "keep");
-    button1.setAttribute("class", "btn btn-success");
+    //Generate "keep" button
+    var keepButton = document.createElement("button");
+    keepButton.setAttribute("id", "keep");
+    keepButton.setAttribute("class", "btn btn-success");
     var button1Text = document.createTextNode("Keep");
-    button1.appendChild(button1Text);
-    optionDiv.appendChild(button1);
+    keepButton.appendChild(button1Text);
+    itemOptionDiv.appendChild(keepButton);
 
-    //Sell
-    var button2 = document.createElement("button");
-    button2.setAttribute("id", "sell");
-    button2.setAttribute("class", "btn btn-danger");
-    var button2Text = document.createTextNode("Sell for " + worth + "$");
-    button2.appendChild(button2Text);
-    optionDiv.appendChild(button2);
+    //Generate "sell" button
+    var sellButton = document.createElement("button");
+    sellButton.setAttribute("id", "sell");
+    sellButton.setAttribute("class", "btn btn-danger");
+    var button2Text = document.createTextNode("Sell for " + itemWorth + "$");
+    sellButton.appendChild(button2Text);
+    itemOptionDiv.appendChild(sellButton);
 
     //Inject elements
-    boxElement.appendChild(desc);
+    boxElement.appendChild(itemDescDiv);
     boxElement.appendChild(itemDiv);
-    boxElement.appendChild(optionDiv);
+    boxElement.appendChild(itemOptionDiv);
 
-    //When clicking on a button, reset everything
-    function resetStage() {
-        item.destroy();
-        boxElement.removeChild(desc);
-        boxElement.removeChild(itemDiv);
-        boxElement.removeChild(optionDiv);
-        clicked = false;
-        startBoxAnimation();
-    }
-
-    //Button actions
-    button1.addEventListener("click", () => { //Keep
+    //Keep button action
+    keepButton.addEventListener("click", () => { //Keep
         var itemAmount = getItemAmount(itemId);
-        //console.log(itemAmount);
         if (itemAmount === undefined) {
             localStorage.setItem(itemId, 1);
         } else {
@@ -169,9 +147,20 @@ function showPrize(randNum) { //Process random number
         resetStage();
     });
 
-    button2.addEventListener("click", () => { //Sell
-        var newWalletValue = getCurrentCash() + worth;
+    //Sell button action
+    sellButton.addEventListener("click", () => { //Sell
+        var newWalletValue = getCurrentCash() + itemWorth;
         setCurrentCash(newWalletValue);
         resetStage();
     });
+    
+    //When clicking on a button, reset everything
+    function resetStage() {
+        itemAnimation.destroy();
+        boxElement.removeChild(itemDescDiv);
+        boxElement.removeChild(itemDiv);
+        boxElement.removeChild(itemOptionDiv);
+        clicked = false;
+        startBoxAnimation();
+    }
 }
