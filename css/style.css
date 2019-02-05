@@ -58,6 +58,22 @@ body{
     justify-content: space-between;  
 }
 
-#itemThumb img{
+#itemThumb img {
     height: 5vh;
+}
+
+#common {
+    color: black;
+}
+
+#uncommon {
+    color: darkcyan;
+}
+
+#rare {
+    color: purple;
+}
+
+#mythic {
+    color: orangered;
 }

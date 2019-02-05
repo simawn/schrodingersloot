@@ -140,25 +140,14 @@
         };
         var box; //Actual animation. Setup in start function
 
-        //CAT
-        var catAnimParams = {
+        //itemParams. Orangecat is default.
+        var itemParams = {
             container: boxElement,
             renderer: "svg",
             loop: true,
             autoplay: true,
             path: "assets/gfx/cat/catA.json"
         };
-        var cat;
-
-        //POISON
-        var poisonAnimParams = {
-            container: boxElement,
-            renderer: "svg",
-            loop: true,
-            autoplay: true,
-            path: "assets/gfx/obj/poison.json"
-        };
-        var poison;
 
         //START
         document.addEventListener("DOMContentLoaded", () => { //When content of the page is loaded
@@ -166,109 +155,94 @@
         });
 
         function getPrize() { //RNG
-            return parseInt(Math.random() * 1000);
+            return Math.random();
         }
 
-        //not used yet
         const itemDb = {
             0: {
-                itemName: "A black cat",
+                itemName: "Black Cat",
                 itemPath: "assets/gfx/cat/catBlack.json",
                 itemWorth: 37,
                 itemThumb: "assets/img/small/catBlack.png",
+                itemChance: 0.5*0.3, //15%
+                itemType: "uncommon",
             },
             1: {
-                itemName: "A black & white cat",
+                itemName: "White Striped Cat",
                 itemPath: "assets/gfx/cat/catBlackWhite.json",
                 itemWorth: 59,
                 itemThumb: "assets/img/small/catWhiteBlack.png",
+                itemChance: 0.5*0.2, //10%
+                itemType: "uncommon",
             },
             2: {
-                itemName: "An orange cat",
+                itemName: "Orange cat",
                 itemPath: "assets/gfx/cat/catA.json",
                 itemWorth: 23,
                 itemThumb: "assets/img/small/catA.png",
+                itemChance: 0.5*0.3, //15%
+                itemType: "uncommon",
             },
             3: {
-                itemName: "A poison flask",
+                itemName: "Poison Flask",
                 itemPath: "assets/gfx/obj/poison.json",
                 itemWorth: 3,
                 itemThumb: "assets/img/small/poison.png",
+                itemChance: 0.5, //50%
+                itemType: "common",
             },
             4: {
-                itemName: "A blue cat",
-                itemPath: "assets/gfx/obj/catBlue.json",
+                itemName: "Blue Cat",
+                itemPath: "assets/gfx/cat/catBlue.json",
                 itemWorth: 67,
                 itemThumb: "assets/img/small/catBlue.png",
+                itemChance: 0.5*0.1, //5%
+                itemType: "rare",
             },
             5: {
                 itemName: "Octocat",
-                itemPath: "assets/gfx/obj/octoCat.json",
+                itemPath: "assets/gfx/cat/octoCat.json",
                 itemWorth: 97,
                 itemThumb: "assets/img/small/octoCat.png",
+                itemChance: 0.5*0.09, //4.5%
+                itemType: "rare",
             },
             6: {
-                itemName: "Lucky cat",
-                itemPath: "assets/gfx/obj/luckyCat.json",
+                itemName: "Lucky Cat",
+                itemPath: "assets/gfx/cat/luckyCat.json",
                 itemWorth: 888,
                 itemThumb: "assets/img/small/luckyCat.png",
-            }
+                itemChance: 0.5*0.01, //0.5%
+                itemType: "mythic",
+            },
         };
         const unknownItem = "assets/img/small/unknownCat.png";
 
         function showPrize(randNum) { //Process random number
-            //Generate item
-            var a = parseInt(randNum / 100);
-            var b = parseInt(randNum / 10) % 10;
-            var c = randNum % 10; //Not used yet
-            //console.log(`RNG: ${randNum}, A: ${a}, B: ${b}, C: ${c}`);
-            var itemName;
-            var itemParams;
+            var itemName; //set
             var item; //Animation load
-            var worth; //Sell amount
-            var itemId;
+            var worth; //set
+            var itemId; //set
+
+            for(var i = 0; i < Object.keys(itemDb).length; i++){
+                var key = Object.keys(itemDb)[i]; //In case we have keys other than ints
+                var itemChance = itemDb[key]["itemChance"];
+                
+                console.log(`rng: ${randNum}, itemchance ${itemChance}, key: ${key}`);
+                if(randNum < itemChance){
+                    itemName = itemDb[key]["itemName"];
+                    itemParams.path = itemDb[key]["itemPath"];
+                    worth = itemDb[key]["itemWorth"];
+                    itemId = key;
+                    console.log(itemName);
+                    break;
+                }
+                randNum -= itemChance;
+            }
+
             //Generate spot for item animation
             var itemDiv = document.createElement("div");
             itemDiv.setAttribute("id", "item");
-
-            if (a <= 5) { //Cat
-                itemParams = catAnimParams; //Load anim details
-
-                switch (b) {
-                    case 1:
-                    case 2:
-                    case 3:
-                        itemId = 0;
-                        itemName = itemDb[itemId]["itemName"];
-                        itemParams.path = itemDb[itemId]["itemPath"];
-                        worth = itemDb[itemId]["itemWorth"];
-                        break;
-                    case 4:
-                    case 5:
-                        itemId = 1;
-                        itemName = itemDb[itemId]["itemName"];
-                        itemParams.path = itemDb[itemId]["itemPath"];
-                        worth = itemDb[itemId]["itemWorth"];
-                        break;
-                    case 6:
-                    case 7:
-                    case 8:
-                    case 9:
-                    case 0:
-                        itemId = 2;
-                        itemName = itemDb[itemId]["itemName"];
-                        itemParams.path = itemDb[itemId]["itemPath"];
-                        worth = itemDb[itemId]["itemWorth"];
-                        break;
-                }
-            } else { //Poison
-                itemParams = poisonAnimParams; //load anim details
-
-                itemId = 3;
-                itemName = itemDb[itemId]["itemName"];
-                itemParams.path = itemDb[itemId]["itemPath"];
-                worth = itemDb[itemId]["itemWorth"];
-            }
 
             //Item animation display
             itemParams.container = itemDiv; //Mod injection params
@@ -278,7 +252,8 @@
             var desc = document.createElement("div");
             desc.setAttribute("id", "desc");
             var h1 = document.createElement("h2");
-            var h1Text = document.createTextNode("You looted: " + itemName);
+            h1.setAttribute("id", itemDb[itemId]["itemType"]);
+            var h1Text = document.createTextNode(itemName);
             h1.appendChild(h1Text);
             desc.appendChild(h1);
 
