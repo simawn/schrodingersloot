@@ -27,8 +27,61 @@ document.addEventListener("DOMContentLoaded", () => {
   startBoxAnimation();
 });
 
-function getPrize() {
-  //RNG
+/*
+When pressing on "Keep" or "Sell", it will register as a 
+click and go immediately to opening box. We don't want that to happen.
+So we create an idleMode flag to prevent that
+*/
+var idleMode = true;
+
+function startBoxAnimation() {
+
+    box = bodymovin.loadAnimation(boxAnimParams);
+    box.addEventListener("DOMLoaded", () => { //When animation data is loaded
+
+        var curCash = getCurrentCash();
+        updateCashDisplayAmt();
+
+        idleMode = true;
+
+        box.playSegments([31, 156], true); //Jump up and down (idle pose)
+
+        boxElement.addEventListener("click", clickOpen);
+    });
+}
+
+function clickOpen() {
+    var curCash = getCurrentCash();
+    if ((curCash < BOXOPENINGCOST) && idleMode) {
+        $('#oocpop').modal('show');
+        /* feeling generous?
+        alert("Looks like you have ran out of cash :(. Here's 50$");
+        setCurrentCash(curCash + 50);
+        updateCashDisplayAmt();
+        curCash = getCurrentCash();
+        */
+    }
+    else if (idleMode && curCash >= BOXOPENINGCOST) {
+        openBox();
+    };
+}
+
+var clicked = false; //Checking for multiple clicks
+
+function openBox() {
+    if (clicked) return;
+    idleMode = false;
+    clicked = true; //Avoid multiple clicks
+    box.playSegments([210, 290], true); //210-354 FOR FULL LENGTH
+    setCurrentCash(getCurrentCash() - BOXOPENINGCOST);
+    updateCashDisplayAmt();
+    box.addEventListener("loopComplete", () => {
+        box.destroy();
+        showPrize(getRandom());
+    });
+}
+
+function getRandom() {
   return Math.random();
 }
 
@@ -42,13 +95,11 @@ function showPrize(randNum) { //Process random number
         var key = Object.keys(itemDb)[i]; //In case we have keys other than ints
         var itemChance = itemDb[key]["itemChance"];
         
-        console.log(`rng: ${randNum}, itemchance ${itemChance}, key: ${key}`);
         if(randNum < itemChance){
             itemName = itemDb[key]["itemName"];
             itemParams.path = itemDb[key]["itemPath"];
             worth = itemDb[key]["itemWorth"];
             itemId = key;
-            console.log(itemName);
             break;
         }
         randNum -= itemChance;
@@ -123,61 +174,4 @@ function showPrize(randNum) { //Process random number
         setCurrentCash(newWalletValue);
         resetStage();
     });
-}
-
-var clicked = false; //Checking for multiple clicks
-
-function openBox() {
-    if (clicked) return;
-    idleMode = false;
-    clicked = true; //Avoid multiple clicks
-    box.playSegments([210, 290], true); //210-354 FOR FULL LENGTH
-    setCurrentCash(getCurrentCash() - BOXOPENINGCOST);
-    updateCashDisplayAmt();
-    getPrize();
-    box.addEventListener("loopComplete", () => {
-        box.destroy();
-        showPrize(getPrize());
-    });
-}
-
-
-
-/*
-When pressing on "Keep" or "Sell", it will register as a 
-click and go immediately to opening box. We don't want that to happen.
-So we create an idleMode flag to prevent that
-*/
-var idleMode = true;
-
-function startBoxAnimation() {
-
-    box = bodymovin.loadAnimation(boxAnimParams);
-    box.addEventListener("DOMLoaded", () => { //When animation data is loaded
-
-        var curCash = getCurrentCash();
-        updateCashDisplayAmt();
-
-        idleMode = true;
-
-        box.playSegments([31, 156], true); //Jump up and down (idle pose)
-
-        boxElement.addEventListener("click", clickOpen);
-    });
-}
-
-function clickOpen() {
-    var curCash = getCurrentCash();
-    if ((curCash < BOXOPENINGCOST) && idleMode) {
-        $('#oocpop').modal('show');
-        /* feeling generous?
-        alert("Looks like you have ran out of cash :(. Here's 50$");
-        setCurrentCash(curCash + 50);
-        updateCashDisplayAmt();
-        curCash = getCurrentCash();
-        */
-    }
-    else if (idleMode && curCash >= BOXOPENINGCOST) {
-        openBox();
-    };
 }
