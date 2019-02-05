@@ -34,7 +34,6 @@ So we create an idleMode flag to prevent that
 var idleMode = true;
 
 function startBoxAnimation() {
-
     boxAnimation = bodymovin.loadAnimation(boxAnimParams);
     boxAnimation.addEventListener("DOMLoaded", () => { //When animation data is loaded
         updateCashDisplayAmt();
@@ -79,7 +78,7 @@ function showPrize(randNum) {
     var itemWorth;
     var itemId;
 
-    //RNG
+    //RNG: Item is determined in here.
     for(var i = 0; i < Object.keys(itemDb).length; i++){
         var key = Object.keys(itemDb)[i]; //In case we have keys other than ints
         var itemChance = itemDb[key]["itemChance"];
@@ -94,9 +93,22 @@ function showPrize(randNum) {
         randNum -= itemChance;
     }
 
+    //Add item to DB
+    var itemAmount = getItemAmount(itemId);
+    console.log("Cur:" + itemAmount);
+    if (itemAmount === undefined) {
+        localStorage.setItem(itemId, 1);
+    } else {
+        localStorage.setItem(itemId, itemAmount + 1);
+    }
+
+    itemAmount = getItemAmount(itemId); //Updates item amount. Needed for keep/sell below.
+    console.log("Upd:" + itemAmount);
+
     //Generate spot for item animation
     var itemDiv = document.createElement("div");
     itemDiv.setAttribute("id", "item");
+    itemDiv.setAttribute("data-itemId", itemId);
 
     //Item animation display
     itemAnimParams.container = itemDiv; //Override default item container
@@ -137,22 +149,21 @@ function showPrize(randNum) {
     boxElement.appendChild(itemOptionDiv);
 
     //Keep button action
-    keepButton.addEventListener("click", () => { //Keep
-        var itemAmount = getItemAmount(itemId);
-        if (itemAmount === undefined) {
-            localStorage.setItem(itemId, 1);
-        } else {
-            localStorage.setItem(itemId, itemAmount + 1);
-        }
-        resetStage();
-    });
+    keepButton.addEventListener("click", keep);
 
     //Sell button action
-    sellButton.addEventListener("click", () => { //Sell
+    sellButton.addEventListener("click", sell);
+
+    function keep() {
+        resetStage();
+    }
+
+    function sell() {
+        localStorage.setItem(itemId, itemAmount - 1);
         var newWalletValue = getCurrentCash() + itemWorth;
         setCurrentCash(newWalletValue);
         resetStage();
-    });
+    }
     
     //When clicking on a button, reset everything
     function resetStage() {

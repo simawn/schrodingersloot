@@ -31,5 +31,5 @@ function setCurrentCash(amount) {
 
 function getItemAmount(itemName) {
     var itemCount = localStorage.getItem(itemName);
-    if (itemCount != null) return parseInt(itemCount);
+    if (itemCount != null || itemCount != undefined) return parseInt(itemCount);
 }

@@ -51,6 +51,20 @@ function sell() {
         updateCashDisplayAmt();
         updateCollection();
     }
+
+    /*
+    Removing the "Sell" option in loot view
+    Prevents double sale:
+    Eg: User in looted item view and has keep/sell button available.
+    They can open their collection and sell the current item from there.
+    Then go back to looted item view and sell the item again using the 'sell' button
+    */
+    if(clicked){ //Is in opening/view item mode
+        var curItemId = document.getElementById("item").getAttribute("data-itemId"); //Grab current item id
+        if(curItemId == this.id){ //Check if current item id matches with the item trying to sell in collection
+            document.getElementById("options").removeChild(document.getElementById("sell"));
+        }
+    }
 }
 
 function restart(){
