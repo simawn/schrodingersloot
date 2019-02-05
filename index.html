@@ -24,14 +24,17 @@
             <h1>😸 schroloot 📦</h1>
 
         </div>
-        <div id="inventory"><button class="btn btn-primary" data-toggle="modal" data-target="#collection" id="btnCollection">Collection</button></div>
+        <div id="menu">
+            <button class="btn btn-primary" data-toggle="modal" data-target="#collection" id="btnCollection">Collection</button>
+            <button class="btn btn-outline-primary" data-toggle="modal" data-target="#info">Info</button>
+        </div>
+        
         <div id="cash">
             <h4 id="cAmt" class="alert alert-primary"></h4>
-            <p>Click the box to open. (17$)</p>
         </div>
         <div id="animBox"></div>
         <div id="footer">
-            <p>Totally not gambling.</p>
+            <p>Click the box to open. (17$)</p>
             <a href="https://github.com/simawn/schrodingersloot" target="_blank"><i class="fab fa-github fa-2x"></i></a>
         </div>
     </div>
@@ -71,8 +74,79 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    Oh no! You can't afford to open this box! Go sell some items in your collection or restart the game.
+                <div class="modal-body" id="modalOOC">
+                    <p>Oh no! You can't afford to open this box!</p>
+                    <p>Go sell some items in your collection or restart the game.</p>
+                    <em>The "Restart" option is the "Collection"</em>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--INFO-->
+
+    <div class="modal fade" id="info" tabindex="-1" role="dialog" aria-labelledby="infolabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="infolabel">Info 🤔</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="infoModal">
+                    <h3>What is this?</h3>
+                    <p>This is a solo hackathon project created at McHacks 6. 
+                        I was competing for the “Useless stuff that nobody needs” category and I thought: 
+                        “Why not create a loot box simulator with cats? Nobody needs that right?”. 
+                        Wrong. I didn’t win; therefore, people need this 😃. So I started improving it after the event was over.
+                    </p>
+                    
+                    <p><a href="https://devpost.com/software/schrodinger-s-loot" target="_blank">Click here for the original Devpost submission.</a></p>
+                    
+                    <h3>What's up with the name?</h3>
+                    <p>Cat + Box + Poison = Schrodinger's Cat</p>
+
+                    <h3>What can I open?</h3>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <h4 id="common">Poison (50%)</h4>
+                            <img src="assets/img/poison.png">
+                        </li>
+                        <li class="list-group-item">
+                            <h4 id="uncommon">Orange Cat (15%)</h4>
+                            <img src="assets/img/catA.png">
+                        </li>
+                        <li class="list-group-item">
+                            <h4 id="uncommon">Black Cat (15%)</h4>
+                            <img src="assets/img/catBlack.png">
+                        </li>
+                        <li class="list-group-item">
+                            <h4 id="uncommon">White Striped Cat (15%)</h4>
+                            <img src="assets/img/catWhiteBlack.png">
+                        </li>
+                        <li class="list-group-item">
+                            <h4 id="rare">Blue Cat (5%)</h4>
+                            <img src="assets/img/catBlue.png">
+                        </li>
+                        <li class="list-group-item">
+                            <h4 id="rare">Octocat (4.5%)</h4>
+                            <img src="assets/img/octoCat.png">
+                        </li>
+                        <li class="list-group-item">
+                            <h4 id="mythic">Lucky Cat (0.5%)</h4>
+                            <img src="assets/img/luckyCat.png">
+                        </li>
+                    </ul>
+                    <h3>Any cheat codes?</h3>
+                    <p>Eveything is checked locally so...</p>
+                    <em>Hint: Cookies and Local Storage</em> 😉
+                    <br/><br/>
+                    <h1>COLLECT 'EM ALL</h1>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
