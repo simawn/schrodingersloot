@@ -1,7 +1,7 @@
 # 🐱 Schrodinger's Loot 📦
 
 # Try it out!
-http://schroloot.com/
+https://schroloot.com/
 
 # Inspiration
 Who doesn't love opening mystery boxes?
@@ -34,7 +34,6 @@ Just kidding.
 
 Due to time constraints, there were many features that I couldn't implement properly. Here's a list of potential features:
 
-Inventory + Ability to sell
-Better interface
-More cats and items
-Trading ability with other 'players'
+- Better interface
+- More cats, items, and boxes
+- Trading ability with other 'players'
