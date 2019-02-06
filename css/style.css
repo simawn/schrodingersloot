@@ -1,3 +1,4 @@
+/*Main page*/
 body{
     background-color: aliceblue !important;
     margin: 0;
@@ -13,20 +14,27 @@ body{
     text-align: center;
 }
 
+#nav {
+    position: relative;
+}
+
+/*Start in nav*/
 #menu{
     text-align: center;
-    margin: 10px;
 }
 
 #cash {
     position: relative;
     text-align: center;
+    padding-top: 5px;
 }
 
+/*End in nav*/
+
 #animBox {
-    height: 70vh;
+    top: -20px;
+    height: 65vh;
     position: relative;
-    background-color: #f0f8ff;
     text-align: center;
 }
 
@@ -35,6 +43,8 @@ body{
     text-align: center;
 }
 
+
+/*Loot view*/
 #desc {
     height: 10%;
 }
