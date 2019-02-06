@@ -95,7 +95,6 @@ function showPrize(randNum) {
 
     //Add item to DB
     var itemAmount = getItemAmount(itemId);
-    console.log("Cur:" + itemAmount);
     if (itemAmount === undefined) {
         localStorage.setItem(itemId, 1);
     } else {
@@ -103,7 +102,6 @@ function showPrize(randNum) {
     }
 
     itemAmount = getItemAmount(itemId); //Updates item amount. Needed for keep/sell below.
-    console.log("Upd:" + itemAmount);
 
     //Generate spot for item animation
     var itemDiv = document.createElement("div");

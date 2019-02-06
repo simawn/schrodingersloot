@@ -76,5 +76,6 @@ function restart(){
         setCurrentCash(STARTCASH);
         updateCashDisplayAmt();
         updateCashDisplayAmtCollection();
+        location.reload(true);
     }
 }
