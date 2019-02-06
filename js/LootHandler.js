@@ -34,7 +34,6 @@ So we create an idleMode flag to prevent that
 var idleMode = true;
 
 function startBoxAnimation() {
-    $(boxElement).hide().fadeIn(600);
     boxAnimation = bodymovin.loadAnimation(boxAnimParams);
     boxAnimation.addEventListener("DOMLoaded", () => { //When animation data is loaded
         updateCashDisplayAmt();
@@ -146,7 +145,6 @@ function showPrize(randNum) {
     boxElement.appendChild(itemDescDiv);
     boxElement.appendChild(itemDiv);
     boxElement.appendChild(itemOptionDiv);
-    $(boxElement).hide().fadeIn(300);
 
     //Keep button action
     keepButton.addEventListener("click", keep);
