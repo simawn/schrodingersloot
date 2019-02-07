@@ -1,18 +1,63 @@
-function getCookie(name) {
-    var v = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
-    return v ? v[2] : null;
+//checked
+function serialize(jsonObj) {
+    return JSON.stringify(jsonObj);
 }
 
-function setCookie(name, value, days) {
-    var d = new Date;
-    d.setTime(d.getTime() + 24 * 60 * 60 * 1000 * days);
-    document.cookie = name + "=" + value + ";path=/;expires=" + d.toGMTString();
+//checked
+function deserialize(jsonString) {
+    return JSON.parse(jsonString);
 }
 
-if (getCookie("cash") == null) {
-    setCookie("cash", STARTCASH, 30);
+function setItemsObj(itemsObj){
+    localStorage.setItem("items", serialize(itemsObj));
 }
 
+//checked
+function getItemsObj(){
+    return deserialize(localStorage.getItem("items"));
+}
+
+function setCash(amount) {
+    localStorage.setItem("cash", amount);
+}
+
+function getCash() {
+    return parseInt(localStorage.getItem("cash"));
+}
+
+function addCash(amount) { //Adds to existing amount
+    localStorage.setItem("cash", getCash() + amount);
+}
+
+//checked
+function getItemAmount(itemId) {
+    var itemsObj = getItemsObj();
+    if(itemsObj[itemId] === undefined) return 0;
+    return itemsObj[itemId].amount;
+}
+
+//checked
+function addItem(itemId) { //Increase by 1
+    var itemsObj = getItemsObj();
+    if(itemsObj[itemId]){ //If entry exists
+        itemsObj[itemId].amount++;
+    } else { //If entry DNE
+        var newItem = {
+            [itemId] : {
+                "amount" : 1,
+            },
+        }
+        itemsObj = {...itemsObj, ...newItem};
+    }
+    setItemsObj(itemsObj);
+}
+
+function removeItem(itemId) { //Decrease by 1
+    var itemsObj = getItemsObj();
+
+}
+
+//move them to a different file?
 function updateCashDisplayAmt() {
     document.getElementById("cAmt").innerHTML = "💸 " + getCookie("cash") + "$ 💵";
 }
@@ -21,15 +66,15 @@ function updateCashDisplayAmtCollection() {
     document.getElementById("colCashDisp").innerHTML = "💸 " + getCookie("cash") + "$ 💵";
 }
 
-function getCurrentCash() {
-    return parseInt(getCookie("cash"));
+/*
+Set items Db if not set
+Not using the functions we have set above for this since it deserializes the result
+*/
+//pass
+function createItemDb(){
+    var itemsObj = localStorage.getItem("items");
+    if(itemsObj === null || itemsObj === undefined || itemsObj === ""){
+        localStorage.setItem("items", "{}");
+    }
 }
-
-function setCurrentCash(amount) {
-    setCookie("cash", amount, 30);
-}
-
-function getItemAmount(itemName) {
-    var itemCount = localStorage.getItem(itemName);
-    if (itemCount != null || itemCount != undefined) return parseInt(itemCount);
-}
+createItemDb();
