@@ -1,3 +1,35 @@
+describe("Testing cash operations", () => {
+    beforeEach(() => {
+        localStorage.setItem("cash", 100);
+    });
+
+    afterEach(() => {
+        localStorage.clear();
+    });
+
+    it("setCash(amount) should set the correct amount", () => {
+        setCash(500);
+        var value = parseInt(localStorage.getItem("cash"));
+        expect(value).toBe(500);
+    });
+
+    it("getCash(amount) should return the correct amount", () => {
+        expect(getCash()).toBe(100);
+    });
+
+    it("addCash(amount) should add the correct amount", () => {
+        addCash(100);
+        var value = parseInt(localStorage.getItem("cash"));
+        expect(value).toBe(200);
+    });
+
+    it("removeCash(amount) should remove the correct amount", () => {
+        removeCash(50);
+        var value = parseInt(localStorage.getItem("cash"));
+        expect(value).toBe(50);
+    });
+});
+
 describe("Testing items database operations", () => {
     beforeEach(() => {
         var itemsObj = {
@@ -17,6 +49,7 @@ describe("Testing items database operations", () => {
     afterEach(() => {
         localStorage.clear();
     });
+
     it("getItemAmount(itemId) should return the correct amount", () => {
         expect(getItemAmount(1)).toBe(2);
         expect(getItemAmount(2)).toBe(0);

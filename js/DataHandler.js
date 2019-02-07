@@ -28,6 +28,10 @@ function addCash(amount) { //Adds to existing amount
     localStorage.setItem("cash", getCash() + amount);
 }
 
+function removeCash(amount) {
+
+}
+
 //Items database operations
 function getItemAmount(itemId) {
     var itemsObj = getItemsObj();
