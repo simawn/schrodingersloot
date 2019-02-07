@@ -1,9 +1,8 @@
-//checked
+//data transfer operations
 function serialize(jsonObj) {
     return JSON.stringify(jsonObj);
 }
 
-//checked
 function deserialize(jsonString) {
     return JSON.parse(jsonString);
 }
@@ -12,11 +11,11 @@ function setItemsObj(itemsObj){
     localStorage.setItem("items", serialize(itemsObj));
 }
 
-//checked
 function getItemsObj(){
     return deserialize(localStorage.getItem("items"));
 }
 
+//cash operations
 function setCash(amount) {
     localStorage.setItem("cash", amount);
 }
@@ -29,14 +28,13 @@ function addCash(amount) { //Adds to existing amount
     localStorage.setItem("cash", getCash() + amount);
 }
 
-//checked
+//Items database operations
 function getItemAmount(itemId) {
     var itemsObj = getItemsObj();
     if(itemsObj[itemId] === undefined) return 0;
     return itemsObj[itemId].amount;
 }
 
-//checked
 function addItem(itemId) { //Increase by 1
     var itemsObj = getItemsObj();
     if(itemsObj[itemId]){ //If entry exists
@@ -70,7 +68,7 @@ function updateCashDisplayAmtCollection() {
 Set items Db if not set
 Not using the functions we have set above for this since it deserializes the result
 */
-//pass
+//checked
 function createItemDb(){
     var itemsObj = localStorage.getItem("items");
     if(itemsObj === null || itemsObj === undefined || itemsObj === ""){
