@@ -32,7 +32,7 @@ body{
 /*End in nav*/
 
 #animBox {
-    top: -20px;
+    top: -15px;
     height: 65vh;
     position: relative;
     text-align: center;
@@ -91,14 +91,17 @@ body{
 }
 
 #infoModal img{
-    width: 50vh;
+    width: 30vh;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-#infoModal h1{
+#infoModal h1, h4 {
     text-align: center;
 }
 
-.list-group-item h4{
+.center {
     text-align: center;
 }
 

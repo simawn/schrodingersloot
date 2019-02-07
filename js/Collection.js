@@ -9,8 +9,8 @@ function updateCollection() {
         var localStorageKey = localStorage.getItem(key);
         rowItemsDisplay += "<tr>";
             rowItemsDisplay += `<td id="itemThumb"><img src="${localStorageKey && (getItemAmount(key) > 0)? itemDb[key]["itemThumb"] : unknownItem}"></td>`;
-            rowItemsDisplay += `<td>${localStorageKey ? itemDb[key]["itemName"] : "???"}</td>`;
-            rowItemsDisplay += `<td>${localStorageKey ? localStorage.getItem(key) : "???"}</td>`;
+            rowItemsDisplay += `<td>${localStorageKey ? "<h6 class=" + itemDb[key]["itemRarity"] + ">" + itemDb[key]["itemName"] + "</h6>": "???"}</td>`;
+            rowItemsDisplay += `<td>${localStorageKey ? localStorage.getItem(key) : "0"}</td>`;
             if(localStorageKey && getItemAmount(key) > 0){
                 rowItemsDisplay += `<td><button class="btn btn-danger sell" id=${key}>${itemDb[key]["itemWorth"]}$</button></td>`;
             } else {
@@ -25,7 +25,7 @@ function updateCollection() {
         <thead>
             <th></th>
             <th>Name</th>
-            <th>Amount</th>
+            <th>Qty</th>
             <th>Sell</th>
         </thead>
         <tbody>
