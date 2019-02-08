@@ -82,6 +82,9 @@ describe("Testing items database operations", () => {
             5:{
                 amount: 6,
             },
+            6:{
+                amount: -1, //Should not happen
+            },
             7:{
                 amount: 0,
             },
@@ -124,23 +127,26 @@ describe("Testing items database operations", () => {
     });
 
     it("removeItem(itemId) should remove an item", () => {
-        removeItem(1)
-        expect(localStorage.getItem("items")[1].amount).toBe(1);
+        removeItem(1);
+        expect(JSON.parse(localStorage.getItem("items"))[1].amount).toBe(1);
 
-        removeItem(2)
-        expect(localStorage.getItem("items")[2].amount).toBe(false);
+        removeItem(2);
+        expect(JSON.parse(localStorage.getItem("items"))[2]).toBe(undefined); //id2 is not defined and should not be
 
-        removeItem(3)
-        expect(localStorage.getItem("items")[3].amount).toBe(3);
+        removeItem(3);
+        expect(JSON.parse(localStorage.getItem("items"))[3].amount).toBe(3);
 
-        removeItem(4)
-        expect(localStorage.getItem("items")[4].amount).toBe(false);
+        removeItem(4);
+        expect(JSON.parse(localStorage.getItem("items"))[4]).toBe(undefined); //id4 is not defined and should not be
 
-        removeItem(5)
-        expect(localStorage.getItem("items")[5].amount).toBe(5);
+        removeItem(5);
+        expect(JSON.parse(localStorage.getItem("items"))[5].amount).toBe(5);
 
-        removeItem(7)
-        expect(localStorage.getItem("items")[7].amount).toBe(false);
+        removeItem(6);
+        expect(JSON.parse(localStorage.getItem("items"))[6].amount).toBe(-1);
+
+        removeItem(7);
+        expect(JSON.parse(localStorage.getItem("items"))[7].amount).toBe(0);
     });
 });
 
