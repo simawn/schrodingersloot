@@ -12,6 +12,7 @@ function setItemsObj(itemsObj){
 }
 
 function getItemsObj(){
+    createItemDb();
     return deserialize(localStorage.getItem("items"));
 }
 
@@ -21,6 +22,7 @@ function setCash(amount) {
 }
 
 function getCash() {
+    createWallet();
     return parseInt(localStorage.getItem("cash"));
 }
 
@@ -29,7 +31,13 @@ function addCash(amount) { //Adds to existing amount
 }
 
 function removeCash(amount) {
-
+    var curCash = getCash();
+    var afterCash = curCash - amount;
+    if(afterCash >= amount){
+        setCash(afterCash);
+        return true;
+    }
+    return false;
 }
 
 //Items database operations
@@ -56,7 +64,13 @@ function addItem(itemId) { //Increase by 1
 
 function removeItem(itemId) { //Decrease by 1
     var itemsObj = getItemsObj();
-
+    if(itemsObj[itemId] && itemsObj[itemId].amount >= 1){ //If entry exists and has 1 or more
+        itemsObj[itemId].amount--;
+    } else { //If entry DNE
+        return false;
+    }
+    setItemsObj(itemsObj);
+    return true;
 }
 
 //move them to a different file?
@@ -79,4 +93,13 @@ function createItemDb(){
         localStorage.setItem("items", "{}");
     }
 }
+
+function createWallet(){
+    var wallet = localStorage.getItem("cash");
+    if(wallet === null || wallet === undefined || wallet === ""){
+        localStorage.setItem("cash", STARTCASH);
+    }
+}
+
 createItemDb();
+createWallet();
