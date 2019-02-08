@@ -74,15 +74,6 @@ function removeItem(itemId) { //Decrease by 1
     return true;
 }
 
-//move them to a different file?
-function updateCashDisplayAmt() {
-    document.getElementById("cAmt").innerHTML = "💸 " + getCookie("cash") + "$ 💵";
-}
-
-function updateCashDisplayAmtCollection() {
-    document.getElementById("colCashDisp").innerHTML = "💸 " + getCookie("cash") + "$ 💵";
-}
-
 //new user operations
 function createItemDb(){
     var itemsObj = localStorage.getItem("items");

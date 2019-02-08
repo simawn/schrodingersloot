@@ -68,6 +68,7 @@ describe("Testing cash operations", () => {
 
     it("removeCash(amount) should not remove amount that the wallet does no have", () => {
         expect(removeCash(200)).toBe(false);
+        expect(parseInt(localStorage.getItem("cash"))).toBe(100);
     });
 });
 

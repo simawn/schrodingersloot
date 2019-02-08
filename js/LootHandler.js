@@ -44,7 +44,7 @@ function startBoxAnimation() {
 }
 
 function clickOpen() {
-    var curCash = getCurrentCash();
+    var curCash = getCash();
     if (idleMode && curCash < BOXOPENINGCOST) {
         $('#oocpop').modal('show');
     }
@@ -60,7 +60,7 @@ function openBox() {
     idleMode = false;
     clicked = true;
     boxAnimation.playSegments([210, 290], true); //Box opening animation. 210-354 for full length
-    setCurrentCash(getCurrentCash() - BOXOPENINGCOST);
+    removeCash(BOXOPENINGCOST);
     updateCashDisplayAmt();
     boxAnimation.addEventListener("loopComplete", () => { //When the animation is over
         boxAnimation.destroy();
@@ -94,12 +94,7 @@ function showPrize(randNum) {
     }
 
     //Add item to DB
-    var itemAmount = getItemAmount(itemId);
-    if (itemAmount === undefined) {
-        localStorage.setItem(itemId, 1);
-    } else {
-        localStorage.setItem(itemId, itemAmount + 1);
-    }
+    addItem(itemId);
 
     itemAmount = getItemAmount(itemId); //Updates item amount. Needed for keep/sell below.
 
@@ -157,9 +152,8 @@ function showPrize(randNum) {
     }
 
     function sell() {
-        localStorage.setItem(itemId, itemAmount - 1);
-        var newWalletValue = getCurrentCash() + itemWorth;
-        setCurrentCash(newWalletValue);
+        removeItem(itemId)
+        addCash(itemWorth);
         resetStage();
     }
     
