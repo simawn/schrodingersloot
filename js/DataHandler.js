@@ -33,7 +33,7 @@ function addCash(amount) { //Adds to existing amount
 function removeCash(amount) {
     var curCash = getCash();
     var afterCash = curCash - amount;
-    if(afterCash >= amount){
+    if(afterCash >= 0){
         setCash(afterCash);
         return true;
     }
