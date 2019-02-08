@@ -143,3 +143,45 @@ describe("Testing items database operations", () => {
         expect(localStorage.getItem("items")[7].amount).toBe(false);
     });
 });
+
+describe("Testing new user operations", () => {
+    beforeEach(() => {
+        localStorage.clear();
+    });
+
+    afterEach(() => {
+        localStorage.clear();
+    });
+
+    it("should create an empty items db for a new user", () => {
+        createItemDb();
+        expect(localStorage.getItem("items")).toBe("{}")
+    });
+
+    it("should create an empty wallet for a new user", () => {
+        createWallet();
+        expect(localStorage.getItem("cash")).toBe(String(STARTCASH));
+    });
+
+    describe("Testing new user operations on existing users", () => {
+        beforeEach(() => {
+            var jsonItemString = `{"1":{"amount":1},"2":{"amount":3}}`;
+            localStorage.setItem("items", jsonItemString);
+            localStorage.setItem("cash", "999");
+        });
+
+        afterEach(() => {
+            localStorage.clear();
+        });
+
+        it("should not create an empty item db for existing users", () => {
+            createItemDb();
+            expect(localStorage.getItem("items")).toBe(`{"1":{"amount":1},"2":{"amount":3}}`);
+        });
+
+        it("should not create an empty wallet for existing users", () => {
+            createWallet();
+            expect(localStorage.getItem("cash")).toBe("999");
+        });
+    });
+});

@@ -82,11 +82,7 @@ function updateCashDisplayAmtCollection() {
     document.getElementById("colCashDisp").innerHTML = "💸 " + getCookie("cash") + "$ 💵";
 }
 
-/*
-Set items Db if not set
-Not using the functions we have set above for this since it deserializes the result
-*/
-//checked
+//new user operations
 function createItemDb(){
     var itemsObj = localStorage.getItem("items");
     if(itemsObj === null || itemsObj === undefined || itemsObj === ""){
