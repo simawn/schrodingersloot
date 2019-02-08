@@ -6,11 +6,15 @@ function updateCollection() {
     var rowItemsDisplay = ""; //Need to be an empty string otherwise returns undefined
 
     Object.keys(itemDb).forEach((key) => {
-        var localStorageKey = localStorage.getItem(key);
+        var localStorageKey = getItemsObj()[key];
         rowItemsDisplay += "<tr>";
-            rowItemsDisplay += `<td id="itemThumb"><img src="${localStorageKey && (getItemAmount(key) > 0)? itemDb[key]["itemThumb"] : unknownItem}"></td>`;
+            //Thumbnail
+            rowItemsDisplay += `<td id="itemThumb"><img src="${localStorageKey && (getItemAmount(key) > 0)? itemDb[key]["itemThumb"] : UNKNOWNITEM}"></td>`;
+            //Name
             rowItemsDisplay += `<td>${localStorageKey ? "<h6 class=" + itemDb[key]["itemRarity"] + ">" + itemDb[key]["itemName"] + "</h6>": "???"}</td>`;
-            rowItemsDisplay += `<td>${localStorageKey ? localStorage.getItem(key) : "0"}</td>`;
+            //Qty
+            rowItemsDisplay += `<td>${localStorageKey ? localStorageKey.amount : "0"}</td>`;
+            //Sell
             if(localStorageKey && getItemAmount(key) > 0){
                 rowItemsDisplay += `<td><button class="btn btn-danger sell" id=${key}>${itemDb[key]["itemWorth"]}$</button></td>`;
             } else {
@@ -45,8 +49,9 @@ function updateCollection() {
 function sell() {
     var itemCount = getItemAmount(this.id);
     if(itemCount > 0) {
-        localStorage.setItem(this.id, itemCount - 1);
-        setCurrentCash(getCurrentCash() + itemDb[this.id]["itemWorth"]); //Should have a add cash method?
+        removeItem(this.id);
+        addCash(itemDb[this.id]["itemWorth"]);
+
         updateCashDisplayAmtCollection();
         updateCashDisplayAmt();
         updateCollection();
@@ -73,9 +78,6 @@ function restart(){
     var restart = confirm("Are you sure you want to restart the game? All your progress and cash will be wiped out!");
     if (restart) {
         localStorage.clear();
-        setCurrentCash(STARTCASH);
-        updateCashDisplayAmt();
-        updateCashDisplayAmtCollection();
         location.reload(true);
     }
 }
