@@ -1,6 +1,6 @@
 describe("Testing data transfer operations", () => {
     beforeEach(() => {
-        var jsonObj = {
+        this.jsonObj = {
             1:{
                 "amount":1
             },
@@ -8,7 +8,7 @@ describe("Testing data transfer operations", () => {
                 "amount":3
             }
         };
-        var jsonString = `{"1":{"amount":1},"2":{"amount":3}}`;
+        this.jsonString = `{"1":{"amount":1},"2":{"amount":3}}`;
     });
     
     afterEach(() => {
@@ -24,12 +24,13 @@ describe("Testing data transfer operations", () => {
     });
 
     it("should set an items object in localStorage", () => {
-        expect(setItemsObj(this.jsonObj)).toBe(localStorage.getItem("items"));
+        setItemsObj(this.jsonObj);
+        expect(localStorage.getItem("items")).toBe(this.jsonString);
     });
 
     it("should get an items object in localStorage", () => {
         localStorage.setItem("items", this.jsonString);
-        expect(getItemsObj()).toBe(this.jsonObj);
+        expect(getItemsObj()).toEqual(this.jsonObj);
     });
 });
 
