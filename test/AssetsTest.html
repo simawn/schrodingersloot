@@ -15,6 +15,7 @@
         var items = "";
         Object.keys(itemDb).forEach((key) => {
             items += "<hr>";
+            items += `Item Id: ${key} </br>`;
             items += `Thumb Small: <img src="../${itemDb[key]['itemThumb']}"/> </br>`;
             items += `Item Name: ${itemDb[key]['itemName']} </br>`;
             items += `Item Worth: ${itemDb[key]['itemWorth']} </br>`;
