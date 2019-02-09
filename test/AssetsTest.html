@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Assets Test</title>
+</head>
+<body>
+    <div id="container"></div>
+    <script src="../js/lottie.js"></script>
+    <script src="../js/ItemDb.js"></script>
+    <script>
+    //Visual test: perhaps there is a better way to test this
+        var items = "";
+        Object.keys(itemDb).forEach((key) => {
+            items += "<hr>";
+            items += `Thumb Small: <img src="../${itemDb[key]['itemThumb']}"/> </br>`;
+            items += `Item Name: ${itemDb[key]['itemName']} </br>`;
+            items += `Item Worth: ${itemDb[key]['itemWorth']} </br>`;
+            items += `Item Rarity: ${itemDb[key]['iteRarity']} </br>`;
+            items += `Item Chance: ${itemDb[key]['itemChance']} </br>`;
+            items += `Item Animation: <div style="height:50vh" id="${key}"></div></br>`;
+        });
+
+        document.getElementById("container").innerHTML = items;
+        
+        document.addEventListener("DOMContentLoaded", () => {
+            Object.keys(itemDb).forEach((key) => {
+                lottie.loadAnimation({
+                    container: document.getElementById(key),
+                    renderer: 'svg',
+                    loop: true,
+                    autoplay: true,
+                    path: `../${itemDb[key]['itemPath']}`
+                });
+            });
+        });
+        
+    </script>
+</body>
+</html>
