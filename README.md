@@ -1,7 +1,7 @@
 # 🐱 Schrodinger's Loot 📦
 
 # Try it out!
-https://schroloot.com/
+https://simonhuang.ca/schrodingersloot/
 
 # Inspiration
 Who doesn't love opening mystery boxes?
